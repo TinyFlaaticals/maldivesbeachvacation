@@ -1,0 +1,61 @@
+<%= form_with(model: booking, url: bookings_property_path(property), class: "w-full") do |form| %>
+  <% if booking.errors.any? %>
+    <div class="bg-red-50 p-4 rounded-lg mb-6">
+      <h2 class="text-red-700 font-medium">Please fix <%= pluralize(booking.errors.count, "error") %> to complete your booking:</h2>
+      <ul class="list-disc list-inside text-red-600 mt-2">
+        <% booking.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="space-y-2">
+      <%= form.label :full_name, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :full_name, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.email_field :email, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.telephone_field :phone_number, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :room_type, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :room_type, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :meal_plan, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.text_field :meal_plan, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :rooms, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.number_field :rooms, min: 1, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :check_in, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.date_field :check_in, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :check_out, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.date_field :check_out, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :adults, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.number_field :adults, min: 1, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+    <div class="space-y-2">
+      <%= form.label :children, class: "block text-sm font-medium text-gray-700" %>
+      <%= form.number_field :children, min: 0, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+    </div>
+  </div>
+  <div class="mt-6 space-y-2">
+    <%= form.label :additional_service_request, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :additional_service_request, rows: 4, class: "mt-1 block w-full px-4 py-2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+  </div>
+  <div class="mt-6">
+    <%= form.submit "Book Now", class: "w-full py-3 px-4 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg shadow-sm transition duration-150 ease-in-out" %>
+  </div>
+<% end %>

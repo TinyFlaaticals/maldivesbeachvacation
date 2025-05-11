@@ -1,0 +1,33 @@
+<div id="<%= dom_id property %>" class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="h-48 bg-gray-300 flex items-center justify-center">
+        <% if property.property_images.any? && property.property_images.first.image.attached? %>
+        <%= image_tag property.property_images.first.image, class: "h-full w-full object-cover" %>
+        <% else %>
+        <div class="h-full w-full bg-gray-300 flex items-center justify-center">
+            <p class="text-gray-400">No image</p>
+        </div>
+        <% end %>
+    </div>
+    <div class="p-4">
+        <h3 class="text-xl font-semibold mb-2"><%= property.name %></h3>
+        <div class="text-sm text-gray-500">
+            <p class="mb-1"><%= property.tagline %></p>
+            <p class="mb-1"><%= property.short_description %></p>
+            <p class="mb-1">
+                <span class="font-medium">Location:</span>
+                <%= property.address %> (<%= property.latitude %>, <%= property.longitude %>)
+            </p>
+            <p class="mb-1">
+                <span class="font-medium">Price:</span>
+                <% if property.discounted_price.present? %>
+                <span class="line-through text-gray-400"><%= number_to_currency(property.normal_price) %></span>
+                <%= number_to_currency(property.discounted_price) %>
+                <span class="text-green-600">(-<%= property.discount_percent %>%)</span>
+                <% else %>
+                <%= number_to_currency(property.normal_price) %>
+                <% end %>
+            </p>
+            <%= link_to "View", admin_property_path(property), class: "rounded-md bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100" %>
+        </div>
+    </div>
+</div>

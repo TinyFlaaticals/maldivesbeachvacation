@@ -1,0 +1,12 @@
+<% content_for :title, "Editing popular property" %>
+
+<h1>Editing popular property</h1>
+
+<%= render "form", popular_property: @popular_property %>
+
+<br>
+
+<div>
+  <%= link_to "Show this popular property", @popular_property %> |
+  <%= link_to "Back to popular properties", popular_properties_path %>
+</div>

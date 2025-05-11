@@ -1,0 +1,13 @@
+<% content_for :title, "New hotel" %>
+      <%# <h2 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Back End Developer</h2> %>
+
+<h1 class="text-2xl/7 font-bold text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">New hotel</h1>
+
+
+<%= render "form", hotel: @hotel %>
+
+<br>
+
+<div>
+  <%= link_to "Back to hotels", admin_hotels_path %>
+</div>

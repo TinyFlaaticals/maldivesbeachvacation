@@ -1,0 +1,8 @@
+<% content_for :title, "Editing facility" %>
+<h1>Editing facility</h1>
+<%= render "form", facility: @facility %>
+<br>
+<div>
+  <%= link_to "Show this facility", admin_facility_path(@facility) %> |
+  <%= link_to "Back to facilities", admin_facilities_path %>
+</div>

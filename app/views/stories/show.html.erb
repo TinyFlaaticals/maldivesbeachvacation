@@ -1,0 +1,15 @@
+<div class="container mx-auto px-4 py-12">
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="p-6">
+      <% if @story.image.attached? %>
+        <div class="mb-6">
+          <%= image_tag @story.image, class: "w-full h-96 object-cover rounded-lg" %>
+        </div>
+      <% end %>
+      <h1 class="text-2xl font-bold text-gray-900 mb-4"><%= @story.title %></h1>
+      <div class="prose max-w-none">
+        <%= @story.content %>
+      </div>
+    </div>
+  </div>
+</div>

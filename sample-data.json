@@ -1,0 +1,54 @@
+{
+    "facilities": [
+        "wifi",
+        "parking",
+        "pool",
+        "gym",
+        "restaurant",
+        "bar",
+        "room service",
+        "business center"
+    ],
+    "popular_filters": [
+        "family",
+        "business",
+        "romantic",
+        "luxury",
+        "budget",
+        "pet friendly",
+        "group"
+    ],
+    "activities": [
+        "hiking",
+        "skiing",
+        "surfing",
+        "fishing",
+        "golfing",
+        "spa",
+        "yoga"
+    ],
+    "properties": [
+        {
+            "name": "Soneva Fushi",
+            "address": "Baa Atoll, Maldives",
+            "normal_price": 1000,
+            "discounted_price": 800,
+            "rating": 4.8,
+            "reviews": 1000,
+            "facilities": ["wifi", "parking", "pool", "gym", "restaurant", "bar", "room service", "business center"],
+            "popular_filters": ["family", "business", "romantic", "luxury", "budget", "pet friendly", "group"],
+            "activities": ["hiking", "skiing", "surfing", "fishing", "golfing", "spa", "yoga"]
+        },
+        {
+            "name": "The Ritz-Carlton, Kapalua",
+            "address": "Maui, Hawaii",
+            "normal_price": 1500,
+            "discounted_price": 1200,
+            "rating": 4.7,
+            "reviews": 800,
+            "facilities": ["wifi", "parking", "pool", "gym", "restaurant", "bar", "room service", "business center"],
+            "popular_filters": ["family", "business", "romantic", "luxury", "budget", "pet friendly", "group"],
+            "activities": ["hiking", "skiing", "surfing", "fishing", "golfing", "spa", "yoga"]
+        }
+    ]
+}

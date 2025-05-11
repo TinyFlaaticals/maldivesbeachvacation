@@ -1,0 +1,46 @@
+<div class="border border-gray-200 p-4 rounded-lg flex flex-col md:flex-row gap-4 max-w-[1000px] self-center">
+  <% if hotel.images.attached? %>
+    <%= image_tag hotel.images.first, class: "h-[200px] w-full md:w-[200px] lg:w-[285px] object-cover rounded-lg" %>
+  <% else %>
+    <div class="h-[200px] w-full md:w-[200px] lg:w-[285px] bg-gray-200 flex items-center justify-center">
+      <p class="text-gray-400">No image</p>
+    </div>
+  <% end %>
+  <div class="flex flex-col">
+    <div class="flex flex-col md:flex-row justify-between">
+      <h1 class="text-xl font-medium"><%= hotel.name %></h1>
+      <div>
+        <p class="bg-[#F2994A] text-white px-2 py-1 rounded-lg text-sm w-fit truncate">
+          Receive 30% discount on a restaurant
+        </p>
+      </div>
+    </div>
+    <div class="flex flex-col md:flex-row h-full gap-4">
+      <div class="flex flex-col flex-grow">
+        <p class="text-sm font-medium mt-4 text-neutral-600">
+          Live a little and celbrate with champagne
+        </p>
+        <p class="text-sm mt-1 text-neutral-600">
+          Reats include a glass of French champagne, parking and a late checkout. Gym included. Flexible cancellation applies
+        </p>
+        <%= link_to "Explore Property", hotel, class: "bg-primary text-white px-4 py-2 rounded-lg w-fit mt-auto hidden md:block" %>
+      </div>
+      <div class="flex flex-col justify-end gap-4  mt-auto">
+        <div class="flex flex-col gap-1 mt-auto justify-end ">
+          <p class="text-neutral-700 font-light text-sm">
+            1 room 2 days
+          </p>
+          <p>
+            <span class="font-medium text-xl">$130</span>
+          </p>
+          <p class="text-neutral-700 font-light text-sm">
+            Includes taxes and fees
+          </p>
+        </div>
+        <div class="mt-auto">
+          <%= link_to "Explore Property", hotel, class: "bg-primary text-white px-4 py-2 rounded-lg w-fit block md:hidden" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

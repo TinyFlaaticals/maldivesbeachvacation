@@ -1,0 +1,31 @@
+<% content_for :title, "Stories" %>
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-gray-900">Stories</h1>
+  <%= link_to new_admin_story_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    New Story
+  <% end %>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="stories">
+  <% @stories.each do |story| %>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <% if story.image.attached? %>
+        <%= image_tag story.image, class: "w-full h-48 object-cover" %>
+      <% end %>
+      <div class="p-6">
+        <h2 class="text-xl font-semibold text-gray-900 mb-2"><%= story.title %></h2>
+        <div class="prose prose-sm text-gray-500 mb-4 line-clamp-3">
+          <%= story.content.to_plain_text %>
+        </div>
+        <%= link_to admin_story_path(story), class: "inline-flex items-center text-sm font-medium text-primary hover:text-primary-500" do %>
+          View Story
+          <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

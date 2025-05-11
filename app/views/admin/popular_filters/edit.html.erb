@@ -1,0 +1,8 @@
+<% content_for :title, "Editing popular filter" %>
+<h1>Editing popular filter</h1>
+<%= render "form", popular_filter: @popular_filter %>
+<br>
+<div>
+  <%= link_to "Show this popular filter", admin_popular_filter_path(@popular_filter) %> |
+  <%= link_to "Back to popular filters", admin_popular_filters_path %>
+</div>

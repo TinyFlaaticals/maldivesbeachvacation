@@ -1,0 +1,39 @@
+<%= form_with(model: [property, room_category], url: url) do |form| %>
+<% if room_category.errors.any? %>
+<div style="color: red">
+    <h2><%= pluralize(room_category.errors.count, "error") %> prohibited this room_category from being saved:</h2>
+
+    <ul>
+        <% room_category.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+        <% end %>
+    </ul>
+</div>
+<% end %>
+
+<div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+</div>
+
+<div>
+    <%= form.label :normal_price, style: "display: block" %>
+    <%= form.text_field :normal_price %>
+</div>
+
+<div>
+    <%= form.label :discounted_price, style: "display: block" %>
+    <%= form.text_field :discounted_price %>
+</div>
+
+<div>
+    <%= form.label :discount_percent, style: "display: block" %>
+    <%= form.number_field :discount_percent %>
+</div>
+
+
+
+<div>
+    <%= form.submit %>
+</div>
+<% end %>

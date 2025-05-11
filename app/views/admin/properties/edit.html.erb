@@ -1,0 +1,8 @@
+<% content_for :title, "Editing property" %>
+<h1>Editing property</h1>
+<%= render "form", property: @property %>
+<br>
+<div>
+    <%= link_to "Show this property", admin_property_path(@property) %> |
+    <%= link_to "Back to properties", admin_properties_path %>
+</div>

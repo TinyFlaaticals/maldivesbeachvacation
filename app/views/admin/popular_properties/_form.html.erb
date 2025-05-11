@@ -1,0 +1,27 @@
+<%= form_with(model: popular_property) do |form| %>
+  <% if popular_property.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(popular_property.errors.count, "error") %> prohibited this popular_property from being saved:</h2>
+
+      <ul>
+        <% popular_property.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :property_id, style: "display: block" %>
+    <%= form.text_field :property_id %>
+  </div>
+
+  <div>
+    <%= form.label :sort_order, style: "display: block" %>
+    <%= form.number_field :sort_order %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

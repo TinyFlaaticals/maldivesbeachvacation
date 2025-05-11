@@ -1,0 +1,8 @@
+<% content_for :title, "Editing activity" %>
+<h1>Editing activity</h1>
+<%= render "form", activity: @activity %>
+<br>
+<div>
+  <%= link_to "Show this activity", admin_activity_path(@activity) %> |
+  <%= link_to "Back to activities", admin_activities_path %>
+</div>

@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @popular_property %>
+
+<div>
+  <%= link_to "Edit this popular property", edit_popular_property_path(@popular_property) %> |
+  <%= link_to "Back to popular properties", popular_properties_path %>
+
+  <%= button_to "Destroy this popular property", @popular_property, method: :delete %>
+</div>

@@ -1,0 +1,6 @@
+<h2>Hotels</h2>
+<div class='flex flex-col gap-4'>
+  <% @hotels.each do |hotel| %>
+    <%= render "hotel", hotel: hotel %>
+  <% end %>
+</div>

@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Popular properties" %>
+
+<h1>Popular properties</h1>
+
+<div id="popular_properties">
+  <% @popular_properties.each do |popular_property| %>
+    <%= render popular_property %>
+    <p>
+      <%= link_to "Show this popular property", popular_property %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New popular property", new_popular_property_path %>

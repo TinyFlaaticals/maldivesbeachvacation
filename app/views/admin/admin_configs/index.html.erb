@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Admin configs" %>
+
+<h1>Admin configs</h1>
+
+<div id="admin_configs">
+  <% @admin_configs.each do |admin_config| %>
+    <%= render admin_config %>
+    <p>
+      <%= link_to "Show this admin config", admin_config %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New admin config", new_admin_config_path %>

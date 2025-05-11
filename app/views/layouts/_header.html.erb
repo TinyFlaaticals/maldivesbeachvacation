@@ -1,0 +1,35 @@
+<header class="bg-primary shadow-sm" data-controller="toggle">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex-shrink-0 ">
+        <%= link_to root_path, class: "flex items-center" do %>
+          <%= image_tag "logo-white.png", class: "w-32" %>
+        <% end %>
+      </div>
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <%= active_link_to "Home", root_path, active: :exact, class: "text-white opacity-80 hover:opacity-100 px-3 py-2 text-sm font-medium" %>
+        <%= active_link_to "Properties", properties_path, class: "text-white opacity-80 hover:opacity-100 px-3 py-2 text-sm font-medium" %>
+        <%= active_link_to "Stories", stories_path, active: :exact, class: "text-white opacity-80 hover:opacity-100 px-3 py-2 text-sm font-medium" %>
+        <%= active_link_to "About", about_path, active: :exact, class: "text-white opacity-80 hover:opacity-100 px-3 py-2 text-sm font-medium" %>
+      </nav>
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button type="button" class="text-white hover:text-gray-200 focus:outline-none" data-action="click->toggle#toggle">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile Navigation -->
+    <div class="md:hidden h-0 opacity-0 overflow-hidden transition-all duration-700 ease-in-out" data-toggle-target="content">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <%= active_link_to "Home", root_path, active: :exact, class: "text-white opacity-80 hover:opacity-100 hover:bg-primary-dark block px-3 py-2 text-base font-medium" %>
+        <%= active_link_to "Properties", properties_path, class: "text-white opacity-80 hover:opacity-100 hover:bg-primary-dark block px-3 py-2 text-base font-medium" %>
+        <%= active_link_to "Stories", "#", active: :exact, class: "text-white opacity-80 hover:opacity-100 hover:bg-primary-dark block px-3 py-2 text-base font-medium" %>
+        <%= active_link_to "About", about_path, active: :exact, class: "text-white opacity-80 hover:opacity-100 hover:bg-primary-dark block px-3 py-2 text-base font-medium" %>
+      </div>
+    </div>
+  </div>
+</header>

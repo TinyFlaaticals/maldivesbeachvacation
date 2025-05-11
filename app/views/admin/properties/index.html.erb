@@ -1,0 +1,12 @@
+<% content_for :title, "Properties" %>
+<div class="container mt-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2>Properties</h2>
+    <%= link_to "New property", new_admin_property_path, class: "rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" %>
+  </div>
+  <div class="flex flex-col gap-4" id="properties">
+    <% @properties.each do |property| %>
+      <%= render "property", property: property %>
+    <% end %>
+  </div>
+</div>

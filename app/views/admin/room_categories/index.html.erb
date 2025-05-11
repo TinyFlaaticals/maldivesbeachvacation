@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Room categories" %>
+
+<h1>Room categories</h1>
+
+<div id="room_categories">
+    <% @room_categories.each do |room_category| %>
+    <%= render room_category %>
+    <p>
+        <%= link_to "Show this room category", admin_property_room_category_path(@property, room_category) %>
+    </p>
+    <% end %>
+</div>
+
+<%= link_to "New room category", new_admin_property_room_category_path(@property) %>

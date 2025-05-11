@@ -1,0 +1,47 @@
+<div id="<%= dom_id booking %>">
+    <p>
+        <strong>Property:</strong>
+        <%= booking.property_id %>
+    </p>
+
+    <p>
+        <strong>Full name:</strong>
+        <%= booking.full_name %>
+    </p>
+
+    <p>
+        <strong>Email:</strong>
+        <%= booking.email %>
+    </p>
+
+    <p>
+        <strong>Phonenumber:</strong>
+        <%= booking.phone_number %>
+    </p>
+
+    <p>
+        <strong>Room type:</strong>
+        <%= booking.room_type %>
+    </p>
+
+    <p>
+        <strong>Meal plan:</strong>
+        <%= booking.meal_plan %>
+    </p>
+
+    <p>
+        <strong>Rooms:</strong>
+        <%= booking.rooms %>
+    </p>
+
+    <p>
+        <strong>People count:</strong>
+        <%= booking.adults + booking.children %>
+    </p>
+
+    <p>
+        <strong>Additional service request:</strong>
+        <%= booking.additional_service_request %>
+    </p>
+
+</div>

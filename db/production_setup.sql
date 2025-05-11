@@ -1,0 +1,4 @@
+CREATE DATABASE resort_booking_production;
+CREATE DATABASE resort_booking_production_cache;
+CREATE DATABASE resort_booking_production_queue;
+CREATE DATABASE resort_booking_production_cable;
