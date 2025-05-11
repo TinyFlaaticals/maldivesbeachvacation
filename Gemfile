@@ -74,6 +74,6 @@ gem "friendly_id", "~> 5.5"
 
 gem "active_link_to", "~> 1.0"
 
-gem "httparty", "~> 0.22.0"
+gem "httparty", "~> 0.23.1"
 
 gem "cocoon", "~> 1.2"
