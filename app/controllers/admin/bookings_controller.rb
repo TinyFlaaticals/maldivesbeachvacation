@@ -1,71 +1,65 @@
 class Admin::BookingsController < AdminApplicationController
   before_action :set_booking, only: %i[ show edit update destroy ]
 
-  # GET /bookings or /bookings.json
+  # GET /admin/bookings
   def index
-    @bookings = Booking.all
+    @bookings = Booking.all.order(created_at: :desc)
   end
 
-  # GET /bookings/1 or /bookings/1.json
+  # GET /admin/bookings/1
   def show
     @property = @booking.property
   end
 
-  # GET /bookings/new
+  # GET /admin/bookings/new
   def new
     @booking = Booking.new
   end
 
-  # GET /bookings/1/edit
+  # GET /admin/bookings/1/edit
   def edit
   end
 
-  # POST /bookings or /bookings.json
+  # POST /admin/bookings
   def create
     @booking = Booking.new(booking_params)
 
-    respond_to do |format|
-      if @booking.save
-        format.html { redirect_to @booking, notice: "Booking was successfully created." }
-        format.json { render :show, status: :created, location: @booking }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
-      end
+    if @booking.save
+      redirect_to admin_booking_path(@booking), notice: "Booking was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /bookings/1 or /bookings/1.json
+  # PATCH/PUT /admin/bookings/1
   def update
-    respond_to do |format|
-      if @booking.update(booking_params)
-        format.html { redirect_to @booking, notice: "Booking was successfully updated." }
-        format.json { render :show, status: :ok, location: @booking }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
-      end
+    if @booking.update(booking_params)
+      redirect_to admin_booking_path(@booking), notice: "Booking was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
-  # DELETE /bookings/1 or /bookings/1.json
+  # DELETE /admin/bookings/1
   def destroy
     @booking.destroy!
+    redirect_to admin_bookings_path, status: :see_other, notice: "Booking was successfully destroyed."
+  end
 
-    respond_to do |format|
-      format.html { redirect_to bookings_path, status: :see_other, notice: "Booking was successfully destroyed." }
-      format.json { head :no_content }
-    end
+  # DELETE /admin/bookings/clear_all
+  def clear_all
+    Booking.destroy_all
+    redirect_to admin_bookings_path, status: :see_other, notice: "All bookings have been successfully removed."
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_booking
-      @booking = Booking.find(params.expect(:id))
+      @booking = Booking.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def booking_params
-      params.expect(booking: [ :property_id, :full_name, :email, :phone_number, :room_type, :meal_plan, :rooms, :adults, :children, :check_in, :check_out, :additional_service_request ])
+      params.require(:booking).permit(:property_id, :full_name, :email, :phone_number, :room_type, :meal_plan, :rooms, :adults, :children, :check_in, :check_out, :additional_service_request)
     end
 end

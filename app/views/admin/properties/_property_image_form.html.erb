@@ -1,17 +1,16 @@
-<div class="nested-form-wrapper p-4 border border-gray-200 rounded-lg mb-4 bg-white shadow-sm" data-new-record="<%= f.object.new_record? %>">
-  <div class="space-y-4">
-    <%= f.label :image, class: "block text-sm font-medium text-gray-700" %>
-    <div class="mt-1">
-      <%= f.file_field :image, class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
-    </div>
-    <% if f.object.image.attached? && !f.object.image.new_record? %>
-      <div class="mt-2">
-        <%= image_tag f.object.image, class: "rounded-lg max-w-md h-auto shadow-md" %>
+<% if f.present? %>
+  <div class="nested-fields p-4 border border-gray-200 rounded-lg mb-4 bg-white shadow-sm" data-new-record="<%= f.object.new_record? %>">
+    <div class="space-y-4">
+      <%= f.label :image, class: "block text-sm font-medium text-gray-700" %>
+      <div class="mt-1">
+        <%= f.file_field :image, class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" %>
       </div>
-    <% end %>
-    <button type="button" data-action="rails-nested-form#remove" class="inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-      Remove image
-    </button>
-    <%= f.hidden_field :_destroy %>
+      <% if f.object.image.attached? && !f.object.image.new_record? %>
+        <div class="mt-2">
+          <%= image_tag f.object.image, class: "rounded-lg max-w-md h-auto shadow-md" %>
+        </div>
+      <% end %>
+      <%= link_to_remove_association "Remove image", f, class: "inline-flex items-center px-3 py-2 border border-red-300 shadow-sm text-sm leading-4 font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" %>
+    </div>
   </div>
-</div>
+<% end %>

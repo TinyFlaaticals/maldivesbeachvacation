@@ -1,5 +1,5 @@
 class Booking < ApplicationRecord
-  belongs_to :property
+  belongs_to :property, optional: true
 
   validates :full_name, presence: true
   validates :email, presence: true

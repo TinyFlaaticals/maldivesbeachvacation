@@ -17,15 +17,11 @@ class Property < ApplicationRecord
   has_many :bookings, dependent: :nullify
 
   has_many :room_categories, dependent: :destroy
+  accepts_nested_attributes_for :room_categories, allow_destroy: true
 
   validates :name, presence: true
   validates :address, presence: true
-  validates :latitude, presence: true
-  validates :longitude, presence: true
   validates :normal_price, presence: true
-  validates :discounted_price, presence: true
-  validates :discount_percent, presence: true
-
 
   extend FriendlyId
   friendly_id :name, use: :slugged

@@ -1,15 +1,62 @@
-<p style="color: green"><%= notice %></p>
+<% if notice %>
+<div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg" role="alert">
+    <%= notice %>
+</div>
+<% end %>
 
-<div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6">
-    <h1 class="text-2xl font-bold mb-4">Booking Details</h1>
-    <p class="text-gray-600 mb-2"><strong>Property:</strong> <%= @property.name %></p>
-    <p class="text-gray-600 mb-2"><strong>Name:</strong> <%= @booking.full_name %></p>
-    <p class="text-gray-600 mb-2"><strong>Email:</strong> <%= @booking.email %></p>
-    <p class="text-gray-600 mb-2"><strong>Phone Number:</strong> <%= @booking.phone_number %></p>
-    <p class="text-gray-600 mb-2"><strong>Check-in Date:</strong> <%= @booking.check_in.strftime("%B %d, %Y") %></p>
-    <p class="text-gray-600 mb-2"><strong>Check-out Date:</strong> <%= @booking.check_out.strftime("%B %d, %Y") %></p>
+<div class="max-w-3xl mx-auto bg-white shadow rounded-lg p-6 mb-4">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Booking Details</h1>
+        <div>
+            <%= button_to "Delete Booking", admin_booking_path(@booking), 
+                method: :delete, 
+                class: "inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none",
+                data: { turbo_confirm: "Are you sure you want to delete this booking?" } %>
+        </div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Guest Information</h2>
+            <p class="text-gray-600 mb-2"><strong>Name:</strong> <%= @booking.full_name %></p>
+            <p class="text-gray-600 mb-2"><strong>Email:</strong> <%= @booking.email %></p>
+            <p class="text-gray-600 mb-2"><strong>Phone Number:</strong> <%= @booking.phone_number %></p>
+        </div>
+        
+        <div>
+            <h2 class="text-lg font-semibold mb-2">Booking Details</h2>
+            <p class="text-gray-600 mb-2"><strong>Property:</strong> 
+                <% if @property %>
+                    <%= @property.name %>
+                <% else %>
+                    <span class="text-gray-400 italic">Property deleted</span>
+                <% end %>
+            </p>
+            <p class="text-gray-600 mb-2"><strong>Room Type:</strong> <%= @booking.room_type %></p>
+            <p class="text-gray-600 mb-2"><strong>Meal Plan:</strong> <%= @booking.meal_plan %></p>
+            <p class="text-gray-600 mb-2"><strong>Check-in Date:</strong> <%= @booking.check_in.strftime("%B %d, %Y") %></p>
+            <p class="text-gray-600 mb-2"><strong>Check-out Date:</strong> <%= @booking.check_out.strftime("%B %d, %Y") %></p>
+            <p class="text-gray-600 mb-2"><strong>Stay Duration:</strong> <%= (@booking.check_out - @booking.check_in).to_i %> days</p>
+            <p class="text-gray-600 mb-2"><strong>Number of Rooms:</strong> <%= @booking.rooms %></p>
+            <p class="text-gray-600 mb-2"><strong>Adults:</strong> <%= @booking.adults %></p>
+            <p class="text-gray-600 mb-2"><strong>Children:</strong> <%= @booking.children %></p>
+        </div>
+    </div>
+    
+    <% if @booking.additional_service_request.present? %>
+    <div class="mt-4">
+        <h2 class="text-lg font-semibold mb-2">Additional Service Requests</h2>
+        <p class="text-gray-600"><%= @booking.additional_service_request %></p>
+    </div>
+    <% end %>
+    
+    <div class="mt-4 text-sm text-gray-500">
+        <p>Booking ID: <%= @booking.id %></p>
+        <p>Booking Token: <%= @booking.token %></p>
+        <p>Created: <%= @booking.created_at.strftime("%B %d, %Y at %H:%M") %></p>
+    </div>
 </div>
 
-<div class="mt-4 text-center">
+<div class="text-center mb-8">
     <%= link_to "Back to bookings", admin_bookings_path, class: "text-blue-600 hover:text-blue-800" %>
 </div>

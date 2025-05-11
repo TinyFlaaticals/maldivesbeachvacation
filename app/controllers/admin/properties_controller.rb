@@ -45,6 +45,6 @@ class Admin::PropertiesController < AdminApplicationController
     end
 
     def property_params
-      params.require(:property).permit(:name, :address, :tagline, :short_description, :latitude, :longitude, :normal_price, :discounted_price, :discount_percent, :discount_text, :offer_text, :overview, facility_ids: [], activity_ids: [], popular_filter_ids: [],  property_images_attributes: [ :id, :image, :_destroy ])
+      params.require(:property).permit(:name, :address, :tagline, :short_description, :latitude, :longitude, :normal_price, :discounted_price, :discount_percent, :discount_text, :offer_text, :overview, facility_ids: [], activity_ids: [], popular_filter_ids: [],  property_images_attributes: [ :id, :image, :_destroy ], room_categories_attributes: [:id, :name, :normal_price, :discounted_price, :discount_percent, :_destroy])
     end
 end

@@ -1,0 +1,21 @@
+<div class="nested-fields grid grid-cols-1 md:grid-cols-4 gap-4 items-end border p-4 rounded-lg relative mb-6">
+  <div>
+    <%= f.label :name, 'Room Type', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.text_field :name, class: 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+  </div>
+  <div>
+    <%= f.label :normal_price, 'Normal Price', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.text_field :normal_price, class: 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+  </div>
+  <div>
+    <%= f.label :discounted_price, 'Discounted Price', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.text_field :discounted_price, class: 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+  </div>
+  <div>
+    <%= f.label :discount_percent, 'Discount %', class: 'block text-sm font-medium text-gray-900' %>
+    <%= f.number_field :discount_percent, class: 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6' %>
+  </div>
+  <div class="absolute top-2 right-2">
+    <%= link_to_remove_association 'Remove', f, class: 'text-red-600 text-xs' %>
+  </div>
+</div> 

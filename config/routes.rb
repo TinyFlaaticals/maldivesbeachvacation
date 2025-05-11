@@ -29,7 +29,11 @@ Rails.application.routes.draw do
     resources :popular_filters
     resources :facilities
     resources :activities
-    resources :bookings
+    resources :bookings do
+      collection do
+        delete :clear_all
+      end
+    end
     resources :stories
     resources :popular_properties
     resource :admin_config, only: [ :show, :edit, :update ]

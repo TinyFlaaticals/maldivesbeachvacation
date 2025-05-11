@@ -10,56 +10,76 @@
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
             <h1 class="text-2xl font-semibold text-gray-900">Bookings</h1>
+            <p class="mt-2 text-sm text-gray-700">
+                A list of all bookings in the system.
+            </p>
         </div>
-
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+            <% if @bookings.any? %>
+                <%= button_to "Clear All Bookings", clear_all_admin_bookings_path, 
+                    method: :delete, 
+                    class: "inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto",
+                    data: { turbo_confirm: "Are you sure you want to remove ALL bookings? This action cannot be undone." } %>
+            <% end %>
+        </div>
     </div>
 
     <div class="mt-8 flex flex-col">
         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">Property</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contact</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">From - To</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Persons</th>
-                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                                    <span class="sr-only">Actions</span>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200 bg-white">
-                            <% @bookings.each do |booking| %>
-                            <tr>
-                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                    <%= booking.property&.name %>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <%= booking.full_name %>
-
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <%= booking.email %>
-                                    <br><%= booking.phone_number %>
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <%= booking.check_in.strftime("%d/%m/%Y") %> - <%= booking.check_out.strftime("%d/%m/%Y") %>
-                                    <br><%= (booking.check_out - booking.check_in).to_i %> days
-                                </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    <%= booking.adults %> adults
-                                    <br> <%= booking.children %> children
-                                </td>
-                                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                    <%= link_to "View", admin_booking_path(booking), class: "text-indigo-600 hover:text-indigo-900" %>
-                                </td>
-                            </tr>
-                            <% end %>
-                        </tbody>
-                    </table>
+                    <% if @bookings.any? %>
+                        <table class="min-w-full divide-y divide-gray-300">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">Property</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Name</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Contact</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">From - To</th>
+                                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Persons</th>
+                                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                        <span class="sr-only">Actions</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                                <% @bookings.each do |booking| %>
+                                <tr>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
+                                        <% if booking.property %>
+                                            <%= booking.property.name %>
+                                        <% else %>
+                                            <span class="text-gray-400 italic">Property deleted</span>
+                                        <% end %>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <%= booking.full_name %>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <%= booking.email %>
+                                        <br><%= booking.phone_number %>
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <%= booking.check_in.strftime("%d/%m/%Y") %> - <%= booking.check_out.strftime("%d/%m/%Y") %>
+                                        <br><%= (booking.check_out - booking.check_in).to_i %> days
+                                    </td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        <%= booking.adults %> adults
+                                        <br> <%= booking.children %> children
+                                    </td>
+                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                                        <%= link_to "View", admin_booking_path(booking), class: "text-indigo-600 hover:text-indigo-900 mr-3" %>
+                                        <%= button_to "Delete", admin_booking_path(booking), method: :delete, class: "text-red-600 hover:text-red-900 border-0 bg-transparent p-0 inline", data: { turbo_confirm: "Are you sure?" } %>
+                                    </td>
+                                </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    <% else %>
+                        <div class="py-10 text-center">
+                            <p class="text-gray-500">No bookings found.</p>
+                        </div>
+                    <% end %>
                 </div>
             </div>
         </div>

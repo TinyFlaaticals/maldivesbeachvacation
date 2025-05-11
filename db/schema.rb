@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_15_084841) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_11_221429) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -77,7 +77,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_15_084841) do
   end
 
   create_table "bookings", force: :cascade do |t|
-    t.bigint "property_id", null: false
+    t.bigint "property_id"
     t.string "full_name"
     t.string "email"
     t.string "phone_number"
