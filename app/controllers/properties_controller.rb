@@ -30,9 +30,8 @@ class PropertiesController < ApplicationController
     @booking.property = @property
 
     if @booking.save
-      BookingMailer.new_booking(@booking).deliver_now
-      redirect_to booking_path(@booking.token), notice: "Booking was successfully created."
-      # redirect_to booking_path(@booking.token), notice: "Booking was successfully created."
+      BookingMailer.new_booking(@booking).deliver_now if defined?(BookingMailer)
+      redirect_to booking_path(id: @booking.token), notice: "Booking was successfully created."
     else
       render :show, status: :unprocessable_entity
     end

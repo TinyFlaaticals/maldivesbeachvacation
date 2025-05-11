@@ -29,20 +29,8 @@
                 </div>
 
                 <div>
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Current Price</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700">$<%= @property.current_price %></dd>
-                </div>
-
-                <div>
                     <dt class="text-sm font-medium leading-6 text-gray-900">Discount</dt>
                     <dd class="mt-1 text-sm leading-6 text-gray-700"><%= @property.discount_percent %>%</dd>
-                </div>
-
-                <div>
-                    <dt class="text-sm font-medium leading-6 text-gray-900">Location</dt>
-                    <dd class="mt-1 text-sm leading-6 text-gray-700">
-                        Lat: <%= @property.latitude %>, Long: <%= @property.longitude %>
-                    </dd>
                 </div>
             </dl>
 
@@ -57,7 +45,6 @@
                             <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">Room Type</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Normal Price</th>
                             <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Discount</th>
-                            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Current Price</th>
                             <th scope="col" class="relative py-3.5 pl-3 pr-4"><span class="sr-only">Actions</span></th>
                         </tr>
                     </thead>
@@ -73,7 +60,6 @@
                                 -
                                 <% end %>
                             </td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">$<%= room_category.current_price %></td>
                             <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
                                 <%= link_to "View", admin_property_room_category_path(@property, room_category), class: "text-indigo-600 hover:text-indigo-900" %>
                             </td>

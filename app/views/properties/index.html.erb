@@ -1,129 +1,177 @@
-<div class="flex flex-col lg:flex-row gap-8 mt-4 mx-4">
-    <!-- Filter Sidebar -->
-    <div class="w-full lg:w-64 lg:flex-shrink-0" data-controller="filter">
+<!-- Properties Page -->
+<div class="bg-gray-50 min-h-screen pb-12">
+  <!-- Header section -->
+  <div class="bg-white shadow-sm">
+    <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <h1 class="text-3xl font-bold text-gray-900">Our Properties</h1>
+      <p class="mt-2 text-gray-600">Plan and book your perfect trip with expert advice, travel tips, destination information and inspiration from us</p>
+    </div>
+  </div>
+
+  <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <!-- Filter Sidebar -->
+      <div class="w-full lg:w-72 space-y-6 flex-shrink-0" data-controller="filter">
+        <!-- Search Box -->
+        <div class="bg-white rounded-2xl shadow p-4">
+          <h2 class="font-medium text-gray-900 mb-3">Search by property name</h2>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </div>
+            <input type="text" placeholder="e.g. Beach westpalm" class="bg-gray-50 py-2 pl-10 pr-4 w-full rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          </div>
+        </div>
+
         <!-- Mobile Filter Toggle -->
-        <div class="lg:hidden mb-4">
-            <button data-action="click->filter#toggleFilters" class="w-full py-2 px-4 bg-white rounded-lg shadow text-gray-700 flex items-center justify-between">
-                <span class="font-medium">Filters</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-filter-target="toggleIcon">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
+        <div class="lg:hidden">
+          <button data-action="click->filter#toggleFilters" class="w-full py-3 px-4 bg-white rounded-xl shadow text-gray-700 flex items-center justify-between font-medium">
+            <span>Filters</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-filter-target="toggleIcon">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
         </div>
 
         <!-- Filter Content -->
-        <div class="bg-white p-4 rounded-lg shadow hidden lg:block" data-filter-target="filterContent">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-medium text-lg">Filters</h3>
-                <%= link_to "Clear", properties_path, class: "text-sm text-gray-600" %>
+        <div class="bg-white rounded-2xl shadow hidden lg:block" data-filter-target="filterContent">
+          <div class="p-4 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+              <h2 class="font-medium text-gray-900">Filter by</h2>
+              <%= link_to "Clear all", properties_path, class: "text-sm text-blue-600 hover:text-blue-800" %>
             </div>
-            <div class="space-y-6">
-                <div>
-                    <h4 class="font-medium mb-2">Offers & Discounts</h4>
-                    <div class="space-y-2">
-                        <%= check_box_tag :with_offer, "true", checked: @filtered_with_offer == "true", class: "mr-2", data: { action: "change->filter#submit" } %>
-                        <%= label_tag :with_offer_true, "With Offer", class: "text-sm text-gray-600" %>
-                        <br>
-                        <%= check_box_tag :with_discount, "true", checked: @filtered_with_discount == "true", class: "mr-2", data: { action: "change->filter#submit" } %>
-                        <%= label_tag :with_discount_true, "With Discount", class: "text-sm text-gray-600" %>
-                    </div>
+          </div>
+
+          <div class="p-4 border-b border-gray-200">
+            <h3 class="font-medium text-gray-900 mb-3">Your budget per day</h3>
+            <div class="space-y-2">
+              <% [[0, 200], [200, 500], [500, 1000], [1000, 2000], [2000, 5000]].each do |min, max| %>
+                <div class="flex items-center">
+                  <%= check_box_tag "price_range_#{min}_#{max}", 
+                                    "#{min}-#{max}", 
+                                    @filtered_min_price == min.to_s && @filtered_max_price == max.to_s, 
+                                    class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500",
+                                    data: { action: "change->filter#submit" } %>
+                  <label for="price_range_<%= min %>_<%= max %>" class="ml-2 text-sm text-gray-700">
+                    $<%= min %> - $<%= number_with_delimiter(max) %>
+                  </label>
                 </div>
-                <!-- Price Range -->
-                <div>
-                    <h4 class="font-medium mb-2">Price Range</h4>
-                    <div class="space-y-2">
-                        <div class="flex items-center">
-                            <%= radio_button_tag :price_range, "all", checked: @filtered_min_price.blank? && @filtered_max_price.blank?, class: "mr-2", data: { action: "change->filter#setPriceRange" } %>
-                            <%= label_tag :price_range_all, "All", class: "text-sm text-gray-600" %>
-                        </div>
-                        <div class="flex items-center">
-                            <%= radio_button_tag :price_range, "0-200", checked: @filtered_min_price == "0" && @filtered_max_price == "200", class: "mr-2", data: { action: "change->filter#setPriceRange" } %>
-                            <%= label_tag :price_range_0_200, "$0-$200", class: "text-sm text-gray-600" %>
-                        </div>
-                        <div class="flex items-center">
-                            <%= radio_button_tag :price_range, "200-500", checked: @filtered_min_price == "200" && @filtered_max_price == "500", class: "mr-2", data: { action: "change->filter#setPriceRange" } %>
-                            <%= label_tag :price_range_200_500, "$200-$500", class: "text-sm text-gray-600" %>
-                        </div>
-                        <div class="flex items-center">
-                            <%= radio_button_tag :price_range, "500-1000", checked: @filtered_min_price == "500" && @filtered_max_price == "1000", class: "mr-2", data: { action: "change->filter#setPriceRange" } %>
-                            <%= label_tag :price_range_500_1000, "$500-$1,000", class: "text-sm text-gray-600" %>
-                        </div>
-                        <div class="flex items-center">
-                            <%= radio_button_tag :price_range, "1000-2000", checked: @filtered_min_price == "1000" && @filtered_max_price == "2000", class: "mr-2", data: { action: "change->filter#setPriceRange" } %>
-                            <%= label_tag :price_range_1000_2000, "$1,000-$2,000", class: "text-sm text-gray-600" %>
-                        </div>
-                        <div class="flex items-center">
-                            <%= radio_button_tag :price_range, "2000-5000", checked: @filtered_min_price == "2000" && @filtered_max_price == "5000", class: "mr-2", data: { action: "change->filter#setPriceRange" } %>
-                            <%= label_tag :price_range_2000_5000, "$2,000-$5,000", class: "text-sm text-gray-600" %>
-                        </div>
-                    </div>
-                    <div class="flex gap-2 mt-2">
-                        <div class="w-full relative">
-                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                            <%= number_field_tag :min_price, params[:min_price], placeholder: "0", class: "w-full rounded border-gray-300 text-gray-600 pl-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none", 
-                  data: { action: "change->filter#submit" }, maxlength: 5 %>
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <span class="text-gray-400">-</span>
-                        </div>
-                        <div class="w-full relative">
-                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                            <%= number_field_tag :max_price, params[:max_price], placeholder: "99999", class: "w-full rounded border-gray-300 text-gray-600 pl-6 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
-                  data: { action: "change->filter#submit" }, maxlength: 5 %>
-                        </div>
-                    </div>
-                </div>
-                <!-- Facilities -->
-                <div>
-                    <h4 class="font-medium mb-2">Facilities</h4>
-                    <div class="space-y-2">
-                        <%= collection_check_boxes :filter, :facilities, Facility.all, :id, :name do |b| %>
-                        <div class="flex items-center">
-                            <%= b.check_box(class: "rounded border-gray-300", data: { action: "change->filter#submit" }, checked: @filtered_facilities&.include?(b.value.to_s)) %>
-                            <%= b.label(class: "ml-2 text-sm text-gray-600") %>
-                        </div>
-                        <% end %>
-                    </div>
-                </div>
-                <!-- Activities -->
-                <div>
-                    <h4 class="font-medium mb-2">Activities</h4>
-                    <div class="space-y-2">
-                        <%= collection_check_boxes :filter, :activities, Activity.all, :id, :name do |b| %>
-                        <div class="flex items-center">
-                            <%= b.check_box(class: "rounded border-gray-300", data: { action: "change->filter#submit" }, checked: @filtered_activities&.include?(b.value.to_s)) %>
-                            <%= b.label(class: "ml-2 text-sm text-gray-600") %>
-                        </div>
-                        <% end %>
-                    </div>
-                </div>
-                <!-- Popular Filters -->
-                <div>
-                    <h4 class="font-medium mb-2">Popular Filters</h4>
-                    <div class="space-y-2">
-                        <%= collection_check_boxes :filter, :popular_filters, PopularFilter.all, :id, :name do |b| %>
-                        <div class="flex items-center">
-                            <%= b.check_box(class: "rounded border-gray-300", data: { action: "change->filter#submit" }, checked: @filtered_popular_filters&.include?(b.value.to_s)) %>
-                            <%= b.label(class: "ml-2 text-sm text-gray-600") %>
-                        </div>
-                        <% end %>
-                    </div>
-                </div>
+              <% end %>
             </div>
+
+            <div class="flex gap-2 mt-4">
+              <div class="w-full relative">
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                <%= number_field_tag :min_price, params[:min_price], placeholder: "Min", class: "w-full rounded-lg border-gray-300 text-gray-700 pl-6 text-sm focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none", 
+                data: { action: "change->filter#submit" }, maxlength: 5 %>
+              </div>
+              <div class="flex items-center justify-center">
+                <span class="text-gray-400">-</span>
+              </div>
+              <div class="w-full relative">
+                <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                <%= number_field_tag :max_price, params[:max_price], placeholder: "Max", class: "w-full rounded-lg border-gray-300 text-gray-700 pl-6 text-sm focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                data: { action: "change->filter#submit" }, maxlength: 5 %>
+              </div>
+            </div>
+          </div>
+
+          <!-- Offers & Discounts -->
+          <div class="p-4 border-b border-gray-200">
+            <h3 class="font-medium text-gray-900 mb-3">Offers & Discounts</h3>
+            <div class="space-y-2">
+              <div class="flex items-center">
+                <%= check_box_tag :with_offer, "true", checked: @filtered_with_offer == "true", 
+                                  class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500", 
+                                  data: { action: "change->filter#submit" } %>
+                <label for="with_offer" class="ml-2 text-sm text-gray-700">With Special Offers</label>
+              </div>
+              
+              <div class="flex items-center">
+                <%= check_box_tag :with_discount, "true", checked: @filtered_with_discount == "true", 
+                                  class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500", 
+                                  data: { action: "change->filter#submit" } %>
+                <label for="with_discount" class="ml-2 text-sm text-gray-700">With Discounts</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Filters -->
+          <div class="p-4 border-b border-gray-200">
+            <h3 class="font-medium text-gray-900 mb-3">Popular Filters</h3>
+            <div class="space-y-2">
+              <%= collection_check_boxes :filter, :popular_filters, PopularFilter.all, :id, :name do |b| %>
+                <div class="flex items-center">
+                  <%= b.check_box(class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500", 
+                                  data: { action: "change->filter#submit" }, 
+                                  checked: @filtered_popular_filters&.include?(b.value.to_s)) %>
+                  <%= b.label(class: "ml-2 text-sm text-gray-700") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Facilities -->
+          <div class="p-4 border-b border-gray-200">
+            <h3 class="font-medium text-gray-900 mb-3">Facilities</h3>
+            <div class="space-y-2">
+              <%= collection_check_boxes :filter, :facilities, Facility.all, :id, :name do |b| %>
+                <div class="flex items-center">
+                  <%= b.check_box(class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500", 
+                                  data: { action: "change->filter#submit" }, 
+                                  checked: @filtered_facilities&.include?(b.value.to_s)) %>
+                  <%= b.label(class: "ml-2 text-sm text-gray-700") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+
+          <!-- Activities -->
+          <div class="p-4">
+            <h3 class="font-medium text-gray-900 mb-3">Activities</h3>
+            <div class="space-y-2">
+              <%= collection_check_boxes :filter, :activities, Activity.all, :id, :name do |b| %>
+                <div class="flex items-center">
+                  <%= b.check_box(class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500", 
+                                  data: { action: "change->filter#submit" }, 
+                                  checked: @filtered_activities&.include?(b.value.to_s)) %>
+                  <%= b.label(class: "ml-2 text-sm text-gray-700") %>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
-    </div>
-    <!-- Properties List -->
-    <div class="flex-1">
-        <div class="mb-4">
-            <p class="text-gray-600">
-                <span class="font-medium text-gray-800"><%= @properties.group(:id).count.size %></span>
-                <%= 'property'.pluralize(@properties.group(:id).count.size) %> found
-            </p>
+      </div>
+
+      <!-- Properties List -->
+      <div class="flex-1">
+        <!-- Sort options and results count -->
+        <div class="flex justify-between items-center bg-white rounded-2xl shadow p-4 mb-6">
+          <p class="text-gray-700">
+            <span class="font-medium"><%= @properties.group(:id).count.size %></span>
+            <%= 'property'.pluralize(@properties.group(:id).count.size) %> found
+          </p>
+          
+          <div class="flex items-center">
+            <label for="sort-by" class="mr-2 text-sm text-gray-700">Sort by:</label>
+            <select id="sort-by" class="text-sm rounded-lg border-gray-300 text-gray-700 focus:ring-blue-500 focus:border-blue-500">
+              <option>Recommended</option>
+              <option>Price: low to high</option>
+              <option>Price: high to low</option>
+              <option>Rating</option>
+            </select>
+          </div>
         </div>
-        <div class="flex flex-col gap-4">
-            <% @properties.each do |property| %>
+
+        <!-- Property cards -->
+        <div class="space-y-6">
+          <% @properties.each do |property| %>
             <%= render "property", property: property %>
-            <% end %>
+          <% end %>
         </div>
+      </div>
     </div>
+  </div>
 </div>
