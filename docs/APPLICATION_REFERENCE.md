@@ -13,6 +13,7 @@
 10. [Asset Management](#asset-management)
 11. [Development Setup](#development-setup)
 12. [Nested Forms with Cocoon](#nested-forms-with-cocoon)
+13. [Site Configuration System](#site-configuration-system)
 
 ## Technology Stack
 
@@ -37,6 +38,7 @@
 - **Icons**: Heroicons
 - **Forms**: Turbo Frames
 - **Real-time Updates**: Turbo Streams
+- **Frontend Interactivity**: Alpine.js for tabs and dynamic UI components
 
 ### Development Tools
 - **Debugging**: debug gem
@@ -83,7 +85,13 @@
    - User management
    - Content management
    - Booking management
-   - System configuration
+   - Site configuration
+
+5. **Site Configuration System**
+   - Contact information management
+   - Homepage content customization
+   - About page content management
+   - Image asset management
 
 ## Frontend Components
 
@@ -99,6 +107,7 @@
    - Top navigation
    - Content area
    - User menu
+   - Alpine.js integration for interactive components
 
 3. **Devise Layout**
    - Authentication forms
@@ -107,12 +116,12 @@
 
 ### Key Pages
 1. **Public Pages**
-   - Home
+   - Home (with configurable hero and middle sections)
    - Property listings
    - Property details
    - Booking form
-   - Contact
-   - About
+   - Contact (with configurable contact information)
+   - About (with configurable content and image)
    - Stories
 
 2. **Admin Pages**
@@ -121,6 +130,7 @@
    - Booking management
    - Content management
    - System settings
+   - Site configuration
 
 ## Backend Components
 
@@ -145,12 +155,31 @@
    - Token generation
    ```
 
-3. **Other Models**
-   - Story
+3. **Story**
+   ```ruby
+   - has_one_attached :image
+   - has_rich_text :content
+   - has_many :story_tags
+   - has_many :tags, through: :story_tags
+   - scopes for published content
+   ```
+
+4. **AdminConfig**
+   ```ruby
+   - has_rich_text :about_us
+   - has_one_attached :about_image
+   - has_one_attached :hero_image
+   - has_one_attached :middle_image
+   - contact information fields
+   - singleton pattern implementation
+   ```
+
+5. **Other Models**
    - Facility
    - Activity
    - PopularFilter
-   - AdminConfig
+   - Tag
+   - StoryTag
 
 ### Controllers
 1. **Public Controllers**
@@ -183,7 +212,20 @@
    - Status
    - Token
 
-3. **Supporting Tables**
+3. **stories**
+   - Title
+   - Content (via ActionText)
+   - Image (via ActiveStorage)
+   - Publishing status
+   - Publication date
+
+4. **admin_configs**
+   - Contact information fields
+   - Hero section fields
+   - About content (via ActionText)
+   - Images (via ActiveStorage)
+
+5. **Supporting Tables**
    - property_images
    - property_facilities
    - property_activities
@@ -192,8 +234,8 @@
    - facilities
    - activities
    - popular_filters
-   - stories
-   - admin_configs
+   - tags
+   - story_tags
 
 ## Authentication System
 
@@ -244,11 +286,27 @@
    - Rich text content
    - Image management
    - SEO optimization
+   - Tagging system
+   - Publishing controls
 
 2. **Facilities & Activities**
    - Management interface
    - Property associations
    - Filter integration
+
+### Site Configuration
+1. **Contact Information**
+   - Email address
+   - Phone number
+   - Office hours (weekday/weekend)
+
+2. **Homepage Content**
+   - Hero section (title, subtitle, image)
+   - Middle section image
+
+3. **About Page**
+   - About image
+   - Rich text content
 
 ## Admin Interface
 
@@ -264,6 +322,7 @@
    - Detail view
    - Edit interface
    - Image management
+   - Room category management
 
 2. **Bookings**
    - List view
@@ -276,11 +335,14 @@
    - Facility management
    - Activity management
    - Filter management
+   - Tag management
 
 4. **Configuration**
-   - System settings
-   - Global options
-   - User management
+   - Contact information management
+   - Homepage content customization
+   - About page content management
+   - Image asset management
+   - Tabbed interface for organization
 
 ### Backend Tabs
 
@@ -313,6 +375,7 @@ The backend interface includes the following tabs:
 ### Images
 - Property images
 - Story images
+- Site configuration images (hero, about, middle sections)
 - Logo and branding
 - Icons and UI elements
 
@@ -324,6 +387,7 @@ The backend interface includes the following tabs:
 
 ### JavaScript
 - Stimulus controllers
+- Alpine.js for tabs and interactive UI
 - Turbo integration
 - Custom functionality
 - Third-party integrations
@@ -577,4 +641,101 @@ end
    - Consider adding client-side validation for a better user experience
    - Use database indexes on foreign keys to optimize queries
 
-This nested form implementation provides a seamless experience for managing room categories within the property creation and editing workflow. 
+This nested form implementation provides a seamless experience for managing room categories within the property creation and editing workflow.
+
+## Site Configuration System
+
+The application includes a comprehensive site configuration system that allows administrators to manage key content and settings across the website.
+
+### AdminConfig Model
+
+The AdminConfig model implements a singleton pattern, ensuring there's only one configuration record:
+
+```ruby
+class AdminConfig < ApplicationRecord
+  has_rich_text :about_us
+  
+  has_one_attached :about_image
+  has_one_attached :hero_image
+  has_one_attached :middle_image
+  
+  validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP, allow_blank: true }
+  
+  def self.instance
+    AdminConfig.first_or_create
+  end
+end
+```
+
+### Database Structure
+
+The AdminConfig table includes:
+
+1. **Contact Information**
+   - `contact_email`: Email address for contact forms and display
+   - `contact_phone`: Phone number display
+   - `office_hours_weekday`: Office hours for weekdays
+   - `office_hours_saturday`: Office hours for Saturdays
+
+2. **Homepage Content**
+   - `hero_title`: Main heading on homepage banner
+   - `hero_subtitle`: Subtitle text on homepage banner
+   - `hero_image`: Background image for hero section (via ActiveStorage)
+   - `middle_image`: Featured image in middle section (via ActiveStorage)
+
+3. **About Page**
+   - `about_us`: Rich text content (via ActionText)
+   - `about_image`: Featured image (via ActiveStorage)
+
+### Admin Interface
+
+The admin interface for site configuration uses a tabbed layout with Alpine.js:
+
+1. **Contact Information Tab**
+   - Form fields for all contact details
+   - Validation for email format
+
+2. **Homepage Content Tab**
+   - Text fields for hero section content
+   - Image upload for hero background
+   - Image upload for middle section
+
+3. **About Us Tab**
+   - Rich text editor for about page content
+   - Image upload for about page
+
+### Image Management
+
+The interface includes advanced image handling:
+
+1. **Image Upload**
+   - Drag-and-drop functionality
+   - File type validation
+   - Size recommendations
+
+2. **Image Preview**
+   - Live preview after selection
+   - Current image display
+
+3. **Image Removal**
+   - Dedicated routes for image purging
+   - Confirmation dialogues
+
+### Frontend Integration
+
+The AdminConfig data is integrated into the frontend:
+
+1. **Home Page**
+   - Dynamic hero section with configurable title, subtitle, and image
+   - Configurable middle section image
+   - Fallbacks for all fields
+
+2. **About Page**
+   - Configurable main image
+   - Rich text content from admin
+   - Contact details display
+
+3. **Contact Page**
+   - Dynamic contact information display
+   - Office hours section (conditionally shown)
+   - Email integration with admin contact 

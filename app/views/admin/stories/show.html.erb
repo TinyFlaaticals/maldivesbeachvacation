@@ -1,33 +1,167 @@
-<div class="flex items-center justify-end mb-6 space-x-2">
-  <%= link_to edit_admin_story_path(@story), class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-    </svg>
-    <span class="hidden sm:inline">Edit this story</span>
-  <% end %>
-  <%= link_to admin_stories_path, class: "inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" do %>
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-    </svg>
-    <span class="hidden sm:inline">Back to stories</span>
-  <% end %>
-  <%= button_to admin_story_path(@story), method: :delete, class: "inline-flex items-center justify-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500", data: { turbo_confirm: "Are you sure?" } do %>
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-    </svg>
-    <span class="hidden sm:inline">Delete this story</span>
-  <% end %>
-</div>
-<div class="bg-white rounded-lg shadow overflow-hidden">
-  <div class="p-6">
-    <% if @story.image.attached? %>
-      <div class="mb-6">
-        <%= image_tag @story.image, class: "w-full h-96 object-cover rounded-lg" %>
+<div class="container mx-auto px-4 py-8">
+  <!-- Page Header with Actions -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900"><%= @story.title %></h1>
+      <p class="mt-1 text-sm text-gray-500">Published <%= @story.created_at.strftime("%B %d, %Y") %></p>
+    </div>
+    
+    <div class="mt-4 md:mt-0 flex items-center space-x-3">
+      <%= link_to admin_stories_path, class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
+        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L7.414 9H15a1 1 0 110 2H7.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Back
+      <% end %>
+      
+      <%= link_to edit_admin_story_path(@story), class: "inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" do %>
+        <svg class="-ml-1 mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+        Edit
+      <% end %>
+      
+      <%= button_to admin_story_path(@story), method: :delete, 
+          class: "inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700",
+          form: { class: "inline-block" },
+          data: { turbo_confirm: "Are you sure you want to delete '#{@story.title}'? This action cannot be undone." } do %>
+        <svg class="-ml-1 mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        Delete
+      <% end %>
+    </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Left Column - Featured Image -->
+    <div class="md:col-span-1">
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Featured Image</h3>
+        </div>
+        <div class="p-4">
+          <% if @story.image.attached? %>
+            <div class="rounded-lg overflow-hidden">
+              <%= image_tag @story.image, class: "w-full h-auto object-cover" %>
+            </div>
+          <% else %>
+            <div class="text-center py-6 bg-gray-50 rounded-lg">
+              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <p class="mt-2 text-sm text-gray-500">No image attached</p>
+              <%= link_to edit_admin_story_path(@story), class: "mt-3 inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200" do %>
+                Add Image
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       </div>
-    <% end %>
-    <h1 class="text-2xl font-bold text-gray-900 mb-4"><%= @story.title %></h1>
-    <div class="prose max-w-none">
-      <%= @story.content %>
+      
+      <!-- Tags Section -->
+      <div class="mt-6 bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Tags</h3>
+        </div>
+        <div class="p-6">
+          <% if @story.tags.any? %>
+            <div class="flex flex-wrap gap-2">
+              <% @story.tags.each do |tag| %>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                  <%= tag.name %>
+                </span>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-500">No tags assigned</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right Column - Story Content -->
+    <div class="md:col-span-2">
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Story Content</h3>
+        </div>
+        <div class="p-6">
+          <div class="prose prose-lg max-w-none">
+            <%= @story.content %>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Story Details -->
+      <div class="mt-6 bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Story Details</h3>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Created</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @story.created_at.strftime("%B %d, %Y at %I:%M %p") %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Last Updated</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @story.updated_at.strftime("%B %d, %Y at %I:%M %p") %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Word Count</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @story.content.to_plain_text.split(/\s+/).count %> words</dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Published URL</dt>
+              <dd class="mt-1 text-sm text-gray-900">
+                <%= link_to story_url(@story), story_path(@story), class: "text-indigo-600 hover:text-indigo-900", target: "_blank" %>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Preview Section -->
+  <div class="mt-6">
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+        <h3 class="text-lg font-medium leading-6 text-gray-900">Story Preview</h3>
+        <%= link_to story_path(@story), class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50", target: "_blank" do %>
+          <svg class="-ml-0.5 mr-1 h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+          View on Site
+        <% end %>
+      </div>
+      <div class="p-6">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <div class="flex flex-col md:flex-row gap-6 items-start">
+            <% if @story.image.attached? %>
+              <div class="w-full md:w-64 flex-shrink-0">
+                <%= image_tag @story.image, class: "w-full h-auto rounded-md object-cover" %>
+              </div>
+            <% end %>
+            <div>
+              <h4 class="text-xl font-semibold mb-3"><%= @story.title %></h4>
+              <div class="text-sm text-gray-500 line-clamp-3"><%= @story.content.to_plain_text.truncate(200) %></div>
+              <div class="mt-3 flex gap-2">
+                <% @story.tags.each do |tag| %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                    <%= tag.name %>
+                  </span>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

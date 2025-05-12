@@ -1,8 +1,294 @@
-<% content_for :title, "Editing admin config" %>
-<h1>Editing admin config</h1>
-<%= render "form", admin_config: @admin_config %>
-<br>
-<div>
-  <%= link_to "Show this admin config", admin_admin_config_path %> |
-  <%= link_to "Back to admin configs", admin_admin_config_path %>
+<% content_for :title, "Site Configuration" %>
+
+<div class="container mx-auto px-4 py-8">
+  <!-- Page Header with Navigation -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Site Configuration</h1>
+      <p class="mt-1 text-sm text-gray-500">Manage your website content and settings</p>
+    </div>
+    
+    <div class="mt-4 md:mt-0 flex items-center space-x-3">
+      <%= link_to admin_admin_config_path, class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50" do %>
+        <svg class="-ml-1 mr-2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+          <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+        </svg>
+        View current settings
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with(model: @admin_config, url: admin_admin_config_path, local: true, class: "mt-6") do |form| %>
+    <% if @admin_config.errors.any? %>
+      <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <div class="ml-3">
+            <h3 class="text-sm font-medium text-red-800">There <%= @admin_config.errors.count == 1 ? 'is' : 'are' %> <%= pluralize(@admin_config.errors.count, "error") %> with this configuration:</h3>
+            <div class="mt-2 text-sm text-red-700">
+              <ul class="list-disc pl-5 space-y-1">
+                <% @admin_config.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- Main Content Tabs -->
+    <div x-data="{ activeTab: 'contact' }" class="mb-6">
+      <!-- Tab Navigation -->
+      <div class="border-b border-gray-200">
+        <nav class="-mb-px flex space-x-8">
+          <button 
+            type="button"
+            @click="activeTab = 'contact'" 
+            :class="activeTab === 'contact' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+            class="py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            Contact Information
+          </button>
+          <button 
+            type="button"
+            @click="activeTab = 'homepage'" 
+            :class="activeTab === 'homepage' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+            class="py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            Homepage Content
+          </button>
+          <button 
+            type="button"
+            @click="activeTab = 'about'" 
+            :class="activeTab === 'about' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+            class="py-4 px-1 border-b-2 font-medium text-sm"
+          >
+            About Us
+          </button>
+        </nav>
+      </div>
+
+      <!-- Contact Information Tab -->
+      <div x-show="activeTab === 'contact'" class="mt-6 grid grid-cols-1 gap-6">
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Contact Information</h3>
+            <p class="mt-1 text-sm text-gray-500">Update your contact details shown on the website</p>
+          </div>
+          <div class="p-6 space-y-6">
+            <div>
+              <%= form.label :contact_email, "Email Address", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.email_field :contact_email, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "contact@example.com" %>
+            </div>
+            
+            <div>
+              <%= form.label :contact_phone, "Phone Number", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :contact_phone, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "+1 (123) 456-7890" %>
+            </div>
+            
+            <div>
+              <%= form.label :office_hours_weekday, "Office Hours (Monday-Friday)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :office_hours_weekday, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "9:00 AM - 6:00 PM" %>
+            </div>
+            
+            <div>
+              <%= form.label :office_hours_saturday, "Office Hours (Saturday)", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :office_hours_saturday, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "10:00 AM - 4:00 PM" %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Homepage Content Tab -->
+      <div x-show="activeTab === 'homepage'" class="mt-6 grid grid-cols-1 gap-6">
+        <!-- Hero Section -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Hero Section</h3>
+            <p class="mt-1 text-sm text-gray-500">Customize the main banner on your homepage</p>
+          </div>
+          <div class="p-6 space-y-6">
+            <div>
+              <%= form.label :hero_title, "Main Heading", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_field :hero_title, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Enjoy Your Dream Vacation" %>
+            </div>
+            
+            <div>
+              <%= form.label :hero_subtitle, "Subtitle", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.text_area :hero_subtitle, rows: 3, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", placeholder: "Plan and book your perfect trip with expert advice, travel tips, destination information and inspiration from us" %>
+            </div>
+            
+            <div>
+              <%= form.label :hero_image, "Hero Background Image", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <div class="mt-1">
+                <% if @admin_config.hero_image.attached? %>
+                  <div class="mb-4">
+                    <%= image_tag @admin_config.hero_image, class: "w-full h-auto object-cover rounded-md" %>
+                  </div>
+                  <div class="flex justify-between items-center mb-4">
+                    <div class="text-sm text-gray-500">Current image</div>
+                    <%= link_to "Remove", remove_hero_image_admin_admin_config_path, method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+                  </div>
+                <% end %>
+                
+                <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                  <div class="space-y-1 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="flex text-sm text-gray-600">
+                      <label for="hero-image-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                        <span>Upload a file</span>
+                        <%= form.file_field :hero_image, class: "sr-only", id: "hero-image-upload" %>
+                      </label>
+                      <p class="pl-1">or drag and drop</p>
+                    </div>
+                    <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Recommended size: 1920 x 1080px)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Middle Section Image -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">Middle Section Image</h3>
+            <p class="mt-1 text-sm text-gray-500">Update the featured image in the middle of your homepage</p>
+          </div>
+          <div class="p-6">
+            <% if @admin_config.middle_image.attached? %>
+              <div class="mb-4">
+                <%= image_tag @admin_config.middle_image, class: "w-full h-auto object-cover rounded-md" %>
+              </div>
+              <div class="flex justify-between items-center mb-4">
+                <div class="text-sm text-gray-500">Current image</div>
+                <%= link_to "Remove", remove_middle_image_admin_admin_config_path, method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+              </div>
+            <% end %>
+            
+            <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="middle-image-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                    <span>Upload a file</span>
+                    <%= form.file_field :middle_image, class: "sr-only", id: "middle-image-upload" %>
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Recommended size: 1920 x 1080px)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About Us Tab -->
+      <div x-show="activeTab === 'about'" class="mt-6 grid grid-cols-1 gap-6">
+        <!-- About Us Content -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+          <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+            <h3 class="text-lg font-medium leading-6 text-gray-900">About Us Content</h3>
+            <p class="mt-1 text-sm text-gray-500">Update the information on your About Us page</p>
+          </div>
+          <div class="p-6 space-y-6">
+            <div>
+              <%= form.label :about_image, "About Page Image", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <div class="mt-1">
+                <% if @admin_config.about_image.attached? %>
+                  <div class="mb-4">
+                    <%= image_tag @admin_config.about_image, class: "w-full h-auto object-cover rounded-md" %>
+                  </div>
+                  <div class="flex justify-between items-center mb-4">
+                    <div class="text-sm text-gray-500">Current image</div>
+                    <%= link_to "Remove", remove_about_image_admin_admin_config_path, method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+                  </div>
+                <% end %>
+                
+                <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                  <div class="space-y-1 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                      <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <div class="flex text-sm text-gray-600">
+                      <label for="about-image-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                        <span>Upload a file</span>
+                        <%= form.file_field :about_image, class: "sr-only", id: "about-image-upload" %>
+                      </label>
+                      <p class="pl-1">or drag and drop</p>
+                    </div>
+                    <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB (Recommended size: 1920 x 1080px)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <%= form.label :about_us, "About Us Text", class: "block text-sm font-medium text-gray-700 mb-1" %>
+              <%= form.rich_text_area :about_us, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" %>
+              <p class="mt-2 text-sm text-gray-500">Use the formatting options to structure your content. Add headings, lists, and other elements as needed.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end space-x-3">
+      <%= link_to "Cancel", admin_admin_config_path, class: "inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+      
+      <%= form.submit "Save Changes", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+    </div>
+  <% end %>
 </div>
+
+<script>
+  // Alpine.js is used for the tabs - make sure it's included
+  document.addEventListener('DOMContentLoaded', function() {
+    // Preview image uploads
+    const imageUploads = {
+      'hero-image-upload': 'hero',
+      'middle-image-upload': 'middle',
+      'about-image-upload': 'about'
+    };
+    
+    Object.keys(imageUploads).forEach(id => {
+      const fileInput = document.getElementById(id);
+      if (fileInput) {
+        fileInput.onchange = () => {
+          const [file] = fileInput.files;
+          if (file) {
+            const previewContainer = fileInput.closest('.p-6');
+            const existingPreview = previewContainer.querySelector('.preview-image');
+            
+            if (!existingPreview) {
+              const imgContainer = document.createElement('div');
+              imgContainer.classList.add('mb-4');
+              
+              const img = document.createElement('img');
+              img.classList.add('preview-image', 'w-full', 'h-auto', 'object-cover', 'rounded-md');
+              imgContainer.appendChild(img);
+              
+              const uploadContainer = fileInput.closest('.flex.justify-center');
+              previewContainer.insertBefore(imgContainer, uploadContainer);
+              
+              img.src = URL.createObjectURL(file);
+            } else {
+              existingPreview.src = URL.createObjectURL(file);
+            }
+          }
+        };
+      }
+    });
+  });
+</script>

@@ -1,16 +1,168 @@
-<div class="space-y-6">
-  <div>
-    <h3 class="text-lg font-medium leading-6 text-gray-900">Contact Email</h3>
-    <p class="mt-2 text-sm text-gray-500"><%= @admin_config.contact_email %></p>
-  </div>
-  <div>
-    <h3 class="text-lg font-medium leading-6 text-gray-900">About Us</h3>
-    <div class="mt-2 prose prose-sm max-w-none">
-      <%= @admin_config.about_us %>
+<% content_for :title, "Site Configuration" %>
+
+<div class="container mx-auto px-4 py-8">
+  <!-- Page Header with Navigation -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">Site Configuration</h1>
+      <p class="mt-1 text-sm text-gray-500">View your current website settings</p>
+    </div>
+    
+    <div class="mt-4 md:mt-0">
+      <%= link_to edit_admin_admin_config_path, class: "inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700" do %>
+        <svg class="-ml-1 mr-2 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+        </svg>
+        Edit Configuration
+      <% end %>
     </div>
   </div>
-  <div class="mt-6 flex items-center gap-x-4">
-    <%= link_to "Edit this admin config", edit_admin_admin_config_path, class: "rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary-500" %>
-    <%= link_to "Back", admin_admin_config_path, class: "text-sm font-semibold leading-6 text-gray-900" %>
+
+  <!-- Configuration Details -->
+  <div x-data="{ activeTab: 'contact' }" class="mt-6">
+    <!-- Tab Navigation -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8">
+        <button 
+          type="button"
+          @click="activeTab = 'contact'" 
+          :class="activeTab === 'contact' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="py-4 px-1 border-b-2 font-medium text-sm"
+        >
+          Contact Information
+        </button>
+        <button 
+          type="button"
+          @click="activeTab = 'homepage'" 
+          :class="activeTab === 'homepage' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="py-4 px-1 border-b-2 font-medium text-sm"
+        >
+          Homepage Content
+        </button>
+        <button 
+          type="button"
+          @click="activeTab = 'about'" 
+          :class="activeTab === 'about' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+          class="py-4 px-1 border-b-2 font-medium text-sm"
+        >
+          About Us
+        </button>
+      </nav>
+    </div>
+
+    <!-- Contact Information Tab -->
+    <div x-show="activeTab === 'contact'" class="mt-6 grid grid-cols-1 gap-6">
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Contact Information</h3>
+        </div>
+        <div class="p-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Email Address</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @admin_config.contact_email.presence || "Not set" %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Phone Number</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @admin_config.contact_phone.presence || "Not set" %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Office Hours (Monday-Friday)</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @admin_config.office_hours_weekday.presence || "Not set" %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Office Hours (Saturday)</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @admin_config.office_hours_saturday.presence || "Not set" %></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Homepage Content Tab -->
+    <div x-show="activeTab === 'homepage'" class="mt-6 grid grid-cols-1 gap-6">
+      <!-- Hero Section -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Hero Section</h3>
+        </div>
+        <div class="p-6">
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <dt class="text-sm font-medium text-gray-500">Hero Image</dt>
+              <dd class="mt-1">
+                <% if @admin_config.hero_image.attached? %>
+                  <div class="mt-2 rounded-lg overflow-hidden max-w-lg">
+                    <%= image_tag @admin_config.hero_image, class: "w-full h-auto" %>
+                  </div>
+                <% else %>
+                  <span class="text-sm text-gray-500">No image set</span>
+                <% end %>
+              </dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Main Heading</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @admin_config.hero_title.presence || "Not set" %></dd>
+            </div>
+            
+            <div>
+              <dt class="text-sm font-medium text-gray-500">Subtitle</dt>
+              <dd class="mt-1 text-sm text-gray-900"><%= @admin_config.hero_subtitle.presence || "Not set" %></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+      
+      <!-- Middle Section Image -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">Middle Section Image</h3>
+        </div>
+        <div class="p-6">
+          <% if @admin_config.middle_image.attached? %>
+            <div class="rounded-lg overflow-hidden max-w-lg">
+              <%= image_tag @admin_config.middle_image, class: "w-full h-auto" %>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-500">No image set</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Us Tab -->
+    <div x-show="activeTab === 'about'" class="mt-6 grid grid-cols-1 gap-6">
+      <!-- About Page Content -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">About Page Image</h3>
+        </div>
+        <div class="p-6">
+          <% if @admin_config.about_image.attached? %>
+            <div class="rounded-lg overflow-hidden max-w-lg">
+              <%= image_tag @admin_config.about_image, class: "w-full h-auto" %>
+            </div>
+          <% else %>
+            <p class="text-sm text-gray-500">No image set</p>
+          <% end %>
+        </div>
+      </div>
+      
+      <!-- About Us Content -->
+      <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+          <h3 class="text-lg font-medium leading-6 text-gray-900">About Us Content</h3>
+        </div>
+        <div class="p-6">
+          <div class="prose prose-sm sm:prose lg:prose-lg max-w-none">
+            <%= @admin_config.about_us %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

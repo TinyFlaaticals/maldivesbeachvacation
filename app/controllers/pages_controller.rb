@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   def home
+    @admin_config = AdminConfig.instance
     @stories = Story.limit(10).order(created_at: :desc)
     @properties = Property.limit(6).order(created_at: :desc)
   end
@@ -13,6 +14,7 @@ class PagesController < ApplicationController
   end
 
   def contact
+    @admin_config = AdminConfig.instance
   end
 
   def submit_contact

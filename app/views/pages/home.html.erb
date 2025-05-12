@@ -2,11 +2,19 @@
 <section class="bg-white py-8">
     <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative h-[50vh] md:h-[70vh] rounded-2xl overflow-hidden">
-            <%= image_tag "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb", class: "w-full h-full object-cover" %>
+            <% if @admin_config&.hero_image.attached? %>
+              <%= image_tag @admin_config.hero_image, class: "w-full h-full object-cover" %>
+            <% else %>
+              <%= image_tag "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb", class: "w-full h-full object-cover" %>
+            <% end %>
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
                 <div class="text-center text-white px-4 max-w-3xl">
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">Enjoy Your Dream Vacation</h1>
-                    <p class="text-base md:text-lg lg:text-xl">Plan and book your perfect trip with expert advice, travel tips, destination information and inspiration from us</p>
+                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
+                        <%= @admin_config&.hero_title.presence || "Enjoy Your Dream Vacation" %>
+                    </h1>
+                    <p class="text-base md:text-lg lg:text-xl">
+                        <%= @admin_config&.hero_subtitle.presence || "Plan and book your perfect trip with expert advice, travel tips, destination information and inspiration from us" %>
+                    </p>
                 </div>
             </div>
         </div>
@@ -31,7 +39,11 @@
 <section class="py-12">
     <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="relative h-[250px] md:h-[400px] lg:h-[500px] w-full rounded-2xl overflow-hidden">
-            <%= image_tag "https://images.unsplash.com/photo-1571896349842-33c89424de2d", class: "w-full h-full object-cover" %>
+            <% if @admin_config&.middle_image.attached? %>
+              <%= image_tag @admin_config.middle_image, class: "w-full h-full object-cover" %>
+            <% else %>
+              <%= image_tag "https://images.unsplash.com/photo-1571896349842-33c89424de2d", class: "w-full h-full object-cover" %>
+            <% end %>
             <div class="absolute inset-0 bg-black bg-opacity-30"></div>
         </div>
     </div>

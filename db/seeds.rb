@@ -173,3 +173,12 @@ properties.each do |property|
   p.activities << Activity.all.sample(3)
   p.popular_filters << PopularFilter.all.sample(3)
 end
+
+# Create default tags
+default_tags = ["Travel", "Maldives", "Holiday", "Beach", "Luxury", "Vacation", "Islands", "Resort", "Spa", "Adventure"]
+
+default_tags.each do |tag_name|
+  Tag.find_or_create_by(name: tag_name)
+end
+
+puts "Default tags created!"

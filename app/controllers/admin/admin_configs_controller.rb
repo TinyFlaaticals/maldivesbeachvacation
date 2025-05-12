@@ -44,6 +44,25 @@ class Admin::AdminConfigsController < AdminApplicationController
       end
     end
   end
+  
+  # Actions to remove attached images
+  def remove_about_image
+    @admin_config = AdminConfig.instance
+    @admin_config.about_image.purge
+    redirect_to edit_admin_admin_config_path, notice: "About image was successfully removed."
+  end
+  
+  def remove_hero_image
+    @admin_config = AdminConfig.instance
+    @admin_config.hero_image.purge
+    redirect_to edit_admin_admin_config_path, notice: "Hero image was successfully removed."
+  end
+  
+  def remove_middle_image
+    @admin_config = AdminConfig.instance
+    @admin_config.middle_image.purge
+    redirect_to edit_admin_admin_config_path, notice: "Middle image was successfully removed."
+  end
 
   # DELETE /admin_configs/1 or /admin_configs/1.json
   def destroy
@@ -63,6 +82,17 @@ class Admin::AdminConfigsController < AdminApplicationController
 
     # Only allow a list of trusted parameters through.
     def admin_config_params
-      params.expect(admin_config: [ :contact_email, :about_us ])
+      params.require(:admin_config).permit(
+        :contact_email, 
+        :contact_phone,
+        :office_hours_weekday,
+        :office_hours_saturday,
+        :hero_title,
+        :hero_subtitle,
+        :about_us,
+        :about_image,
+        :hero_image,
+        :middle_image
+      )
     end
 end

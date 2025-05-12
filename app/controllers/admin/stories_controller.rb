@@ -1,5 +1,5 @@
 class Admin::StoriesController < AdminApplicationController
-  before_action :set_story, only: %i[ show edit update destroy ]
+  before_action :set_story, only: %i[ show edit update destroy remove_image ]
 
   # GET /stories or /stories.json
   def index
@@ -56,15 +56,22 @@ class Admin::StoriesController < AdminApplicationController
       format.json { head :no_content }
     end
   end
+  
+  # DELETE /stories/1/remove_image
+  def remove_image
+    @story.image.purge
+    
+    redirect_to edit_admin_story_path(@story), notice: "Image was successfully removed."
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_story
-      @story = Story.find(params.expect(:id))
+      @story = Story.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def story_params
-      params.expect(story: [ :title, :image, :content ])
+      params.require(:story).permit(:title, :image, :content, :tag_list, :published, :publish_date)
     end
 end

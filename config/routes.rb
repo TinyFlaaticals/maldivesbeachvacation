@@ -34,9 +34,19 @@ Rails.application.routes.draw do
         delete :clear_all
       end
     end
-    resources :stories
+    resources :stories do
+      member do
+        delete :remove_image
+      end
+    end
     resources :popular_properties
-    resource :admin_config, only: [ :show, :edit, :update ]
+    resource :admin_config, only: [ :show, :edit, :update ] do
+      member do
+        delete :remove_about_image
+        delete :remove_hero_image
+        delete :remove_middle_image
+      end
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

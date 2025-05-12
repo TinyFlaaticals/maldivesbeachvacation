@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_11_221429) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_12_020921) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -62,6 +62,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_221429) do
     t.string "contact_email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "contact_phone"
+    t.string "office_hours_weekday"
+    t.string "office_hours_saturday"
+    t.string "hero_title"
+    t.string "hero_subtitle"
   end
 
   create_table "admins", force: :cascade do |t|
@@ -188,12 +193,43 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_221429) do
     t.decimal "current_price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "short_description"
+    t.text "full_description"
+    t.string "size_sqm"
+    t.string "size_sqft"
+    t.integer "max_adults", default: 2
+    t.integer "max_children", default: 0
+    t.integer "num_bedrooms", default: 1
+    t.integer "num_bathrooms", default: 1
+    t.string "bed_configuration"
+    t.boolean "has_pool", default: false
+    t.boolean "has_beach_access", default: false
+    t.boolean "has_ocean_view", default: false
+    t.text "comfort_amenities"
+    t.text "convenience_features"
     t.index ["property_id"], name: "index_room_categories_on_property_id"
   end
 
   create_table "stories", force: :cascade do |t|
     t.string "title"
     t.string "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "published", default: true
+    t.datetime "publish_date"
+  end
+
+  create_table "story_tags", force: :cascade do |t|
+    t.bigint "story_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["story_id"], name: "index_story_tags_on_story_id"
+    t.index ["tag_id"], name: "index_story_tags_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -210,4 +246,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_11_221429) do
   add_foreign_key "property_popular_filters", "popular_filters"
   add_foreign_key "property_popular_filters", "properties"
   add_foreign_key "room_categories", "properties"
+  add_foreign_key "story_tags", "stories"
+  add_foreign_key "story_tags", "tags"
 end
