@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Resort Booking" %></title>
+    <title><%= content_for(:title) || "Resort Booking Admin" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -20,163 +20,74 @@
     <!-- Alpine.js for interactive components -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   </head>
-  <body>
-    <div data-controller="sidebar-toggle">
-      <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-      <div class="relative z-50 lg:hidden hidden" role="dialog" aria-modal="true" data-sidebar-toggle-target="sidebar">
-        <div class="fixed inset-0 bg-gray-900/80" aria-hidden="true"></div>
-        <div class="fixed inset-0 flex">
-          <div class="relative mr-16 flex w-full max-w-xs flex-1">
-            <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-              <button type="button" class="-m-2.5 p-2.5" data-action="click->sidebar-toggle#close">
-                <span class="sr-only">Close sidebar</span>
-                <svg class="size-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <!-- Sidebar component, swap this element with another sidebar if you like -->
-            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4">
-              <div class="flex h-16 shrink-0 items-center">
-                <%# <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=white" alt="Your Company"> %>
-                <%= image_tag "logo-white.png", class: "h-12 w-auto mt-4" %>
-              </div>
-              <nav class="flex flex-1 flex-col">
-                <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                  <li>
-                    <ul role="list" class="-mx-2 space-y-1">
-                      <li>
-                        <%= link_to admin_properties_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Properties
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_bookings_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Bookings
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_stories_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Stories
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_facilities_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Facilities
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_activities_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Activities
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_popular_filters_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Popular Filters
-                        <% end %>
-                      </li>
-                      <li>
-                        <%= link_to admin_admin_config_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                          Admin Config
-                        <% end %>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+  <body class="bg-gray-50">
+    <!-- Minimal top header -->
+    <header class="bg-white border-b border-gray-200" x-data="{ isOpen: false }">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <!-- Logo -->
+          <div class="flex-shrink-0">
+            <%= link_to admin_properties_path do %>
+              <%= image_tag "logo.png", alt: "Maldives Beach Vacation", class: "h-8 w-auto object-contain" %>
+            <% end %>
           </div>
-        </div>
-      </div>
-      <!-- Static sidebar for desktop -->
-      <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
-        <!-- Sidebar component, swap this element with another sidebar if you like -->
-        <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-primary px-6 pb-4">
-          <div class="flex h-16 shrink-0 items-center">
-            <%# <img class="h-8 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=white" alt="Your Company"> %>
-            <%= image_tag "logo-white.png", class: "h-12 w-auto mt-4" %>
-          </div>
-          <nav class="flex flex-1 flex-col">
-            <ul role="list" class="flex flex-1 flex-col gap-y-7">
-              <li>
-                <ul role="list" class="-mx-2 space-y-1">
-                  <li>
-                    <%= link_to admin_properties_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Properties
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to admin_bookings_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Bookings
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to admin_stories_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Stories
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to admin_facilities_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Facilities
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to admin_activities_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Activities
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to admin_popular_filters_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Popular Filters
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to admin_admin_config_path, class: "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-white hover:bg-primary-700 hover:text-white" do %>
-                      Admin Config
-                    <% end %>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+          
+          <!-- Navigation links -->
+          <nav class="hidden md:flex space-x-8">
+            <%= link_to "Properties", admin_properties_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_properties_path) ? 'text-gray-900' : ''}" %>
+            <%= link_to "Bookings", admin_bookings_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_bookings_path) ? 'text-gray-900' : ''}" %>
+            <%= link_to "Stories", admin_stories_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_stories_path) ? 'text-gray-900' : ''}" %>
+            <%= link_to "Facilities", admin_facilities_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_facilities_path) ? 'text-gray-900' : ''}" %>
+            <%= link_to "Activities", admin_activities_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_activities_path) ? 'text-gray-900' : ''}" %>
+            <%= link_to "Filters", admin_popular_filters_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_popular_filters_path) ? 'text-gray-900' : ''}" %>
+            <%= link_to "Config", admin_admin_config_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900 #{current_page?(admin_admin_config_path) ? 'text-gray-900' : ''}" %>
           </nav>
-        </div>
-      </div>
-      <div class="lg:pl-72">
-        <div class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-          <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" data-action="click->sidebar-toggle#open">
-            <span class="sr-only">Open sidebar</span>
-            <svg class="size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            </svg>
-          </button>
-          <!-- Separator -->
-          <div class="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true"></div>
-          <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <div class="flex items-center gap-x-4 lg:gap-x-6">
-              <!-- Profile dropdown -->
-              <div class="relative">
-                <button type="button" class="-m-1.5 flex items-center p-1.5" id="user-menu-button" aria-expanded="false" aria-haspopup="true" data-action="click->sidebar-toggle#toggleDropdown">
-                  <span class="hidden lg:flex lg:items-center">
-                    <span class="ml-4 text-sm/6 font-semibold text-gray-900" aria-hidden="true">Admin</span>
-                  </span>
-                </button>
-                <!-- Dropdown menu -->
-                <div class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none hidden" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                  <%= button_to "Sign out", destroy_admin_session_path, method: :delete, data: { turbo_method: :delete }, class: "block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-50 w-full text-left" %>
-                  <%= link_to "Sign out (Alternative)", destroy_admin_session_path, data: { turbo_method: :delete }, class: "block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-50" %>
-                </div>
-              </div>
-              <!-- Direct sign out link -->
-              <%= link_to "Sign Out", destroy_admin_session_path, data: { turbo_method: :delete }, class: "text-sm font-semibold leading-6 text-gray-900 hover:text-primary" %>
-            </div>
+          
+          <!-- Right navigation -->
+          <div class="hidden md:flex items-center space-x-4">
+            <%= link_to "Visit Site", root_path, class: "text-sm font-medium text-gray-500 hover:text-gray-900" %>
+            <%= link_to "Sign Out", destroy_admin_session_path, data: { turbo_method: :delete }, class: "text-sm font-medium text-gray-500 hover:text-gray-900" %>
+          </div>
+          
+          <!-- Mobile menu button -->
+          <div class="md:hidden">
+            <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100" aria-expanded="false" @click="isOpen = !isOpen">
+              <span class="sr-only">Open main menu</span>
+              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
           </div>
         </div>
-        <main class="py-10">
-          <div class="px-4 sm:px-6 lg:px-8">
-            <%= yield %>
-          </div>
-        </main>
       </div>
-    </div>
+      
+      <!-- Mobile menu, show/hide based on menu state -->
+      <div class="md:hidden" x-show="isOpen" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95">
+        <div class="pt-2 pb-3 space-y-1 border-t border-gray-200">
+          <%= link_to "Properties", admin_properties_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <%= link_to "Bookings", admin_bookings_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <%= link_to "Stories", admin_stories_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <%= link_to "Facilities", admin_facilities_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <%= link_to "Activities", admin_activities_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <%= link_to "Filters", admin_popular_filters_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <%= link_to "Config", admin_admin_config_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          <div class="border-t border-gray-200 pt-4 mt-2">
+            <%= link_to "Visit Site", root_path, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+            <%= link_to "Sign Out", destroy_admin_session_path, data: { turbo_method: :delete }, class: "block pl-3 pr-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900" %>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <% if notice %>
+        <div class="bg-green-50 p-4 rounded-md mb-6">
+          <p class="text-green-700 text-sm"><%= notice %></p>
+        </div>
+      <% end %>
+      
+      <%= yield %>
+    </main>
   </body>
 </html>
