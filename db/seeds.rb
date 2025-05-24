@@ -182,3 +182,11 @@ default_tags.each do |tag_name|
 end
 
 puts "Default tags created!"
+
+# Create admin user
+Admin.find_or_create_by!(email: 'admin@maldivesbeachvacation.com') do |admin|
+  admin.password = 'password123'
+  admin.password_confirmation = 'password123'
+end
+
+puts "Admin user created!"

@@ -21590,4 +21590,4 @@ jquery/dist/jquery.js:
 trix/dist/trix.esm.min.js:
   (*! @license DOMPurify 3.2.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.3/LICENSE *)
 */
-//# sourceMappingURL=/assets/application.js.map
+//# sourceMappingURL=/assets/application-d3ee0300.js.map

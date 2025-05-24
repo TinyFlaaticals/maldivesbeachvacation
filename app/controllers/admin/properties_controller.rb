@@ -49,7 +49,7 @@ class Admin::PropertiesController < AdminApplicationController
       :name, :address, :tagline,
       :short_description, :latitude, :longitude,
       :normal_price, :discounted_price, :discount_percent,
-      :discount_text, :offer_text, :overview,
+      :discount_text, :offer_text, :overview, :star_rating,
       facility_ids: [],
       activity_ids: [],
       popular_filter_ids: [],

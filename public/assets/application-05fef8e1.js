@@ -14863,7 +14863,7 @@ window.Stimulus = application;
 var filter_controller_default = class extends Controller {
   static targets = ["filterContent", "toggleIcon", "searchInput"];
   connect() {
-    const searchInput = document.querySelector('input[name="search"]') || document.querySelector('input[placeholder*="Beach westpalm"]');
+    const searchInput = document.querySelector('input[placeholder*="Beach westpalm"]');
     if (searchInput) {
       let searchTimeout;
       searchInput.addEventListener("input", (e2) => {
@@ -21590,4 +21590,4 @@ jquery/dist/jquery.js:
 trix/dist/trix.esm.min.js:
   (*! @license DOMPurify 3.2.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.3/LICENSE *)
 */
-//# sourceMappingURL=/assets/application.js.map
+//# sourceMappingURL=/assets/application-413d6478.js.map

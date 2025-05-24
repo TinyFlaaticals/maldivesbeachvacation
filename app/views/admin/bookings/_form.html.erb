@@ -28,7 +28,14 @@
 
     <div class="space-y-2">
         <%= form.label :room_type, class: "block text-sm font-medium text-gray-700" %>
-        <%= form.text_field :room_type, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+        <% if defined?(property) && property&.room_categories&.any? %>
+          <%= form.select :room_type, 
+                          options_from_collection_for_select(property.room_categories, :name, :name, form.object.room_type),
+                          { prompt: 'Select a room type' }, 
+                          { class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" } %>
+        <% else %>
+          <%= form.text_field :room_type, class: "mt-1 block w-full h-12 px-4 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary bg-gray-50" %>
+        <% end %>
     </div>
 
     <div class="space-y-2">

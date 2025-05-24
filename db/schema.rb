@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_12_020921) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_24_201156) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -146,6 +146,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_12_020921) do
     t.string "slug"
     t.string "discount_text"
     t.string "offer_text"
+    t.decimal "star_rating", precision: 2, scale: 1, default: "4.5"
     t.index ["slug"], name: "index_properties_on_slug", unique: true
   end
 

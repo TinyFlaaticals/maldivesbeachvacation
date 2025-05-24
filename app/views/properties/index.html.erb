@@ -21,7 +21,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
               </svg>
             </div>
-            <input type="text" placeholder="e.g. Beach westpalm" class="bg-gray-50 py-2 pl-10 pr-4 w-full rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <input type="text" name="search" value="<%= @filtered_search %>" placeholder="e.g. Beach westpalm" class="bg-gray-50 py-2 pl-10 pr-4 w-full rounded-lg border border-gray-300 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
           </div>
         </div>
 
@@ -51,9 +51,9 @@
                 <div class="flex items-center">
                   <%= check_box_tag "price_range_#{min}_#{max}", 
                                     "#{min}-#{max}", 
-                                    @filtered_min_price == min.to_s && @filtered_max_price == max.to_s, 
+                                    (@filtered_min_price == min.to_s && @filtered_max_price == max.to_s) || params[:price_range] == "#{min}-#{max}", 
                                     class: "h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500",
-                                    data: { action: "change->filter#submit" } %>
+                                    data: { action: "change->filter#setPriceRange" } %>
                   <label for="price_range_<%= min %>_<%= max %>" class="ml-2 text-sm text-gray-700">
                     $<%= min %> - $<%= number_with_delimiter(max) %>
                   </label>
@@ -64,7 +64,7 @@
             <div class="flex gap-2 mt-4">
               <div class="w-full relative">
                 <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                <%= number_field_tag :min_price, params[:min_price], placeholder: "Min", class: "w-full rounded-lg border-gray-300 text-gray-700 pl-6 text-sm focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none", 
+                <%= number_field_tag :min_price, @filtered_min_price, placeholder: "Min", class: "w-full rounded-lg border-gray-300 text-gray-700 pl-6 text-sm focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none", 
                 data: { action: "change->filter#submit" }, maxlength: 5 %>
               </div>
               <div class="flex items-center justify-center">
@@ -72,7 +72,7 @@
               </div>
               <div class="w-full relative">
                 <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-                <%= number_field_tag :max_price, params[:max_price], placeholder: "Max", class: "w-full rounded-lg border-gray-300 text-gray-700 pl-6 text-sm focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+                <%= number_field_tag :max_price, @filtered_max_price, placeholder: "Max", class: "w-full rounded-lg border-gray-300 text-gray-700 pl-6 text-sm focus:ring-blue-500 focus:border-blue-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
                 data: { action: "change->filter#submit" }, maxlength: 5 %>
               </div>
             </div>
@@ -157,18 +157,30 @@
           <div class="flex items-center">
             <label for="sort-by" class="mr-2 text-sm text-gray-700">Sort by:</label>
             <select id="sort-by" class="text-sm rounded-lg border-gray-300 text-gray-700 focus:ring-blue-500 focus:border-blue-500">
-              <option>Recommended</option>
-              <option>Price: low to high</option>
-              <option>Price: high to low</option>
-              <option>Rating</option>
+              <option value="Recommended" <%= 'selected' if @filtered_sort.blank? %>>Recommended</option>
+              <option value="Price: low to high" <%= 'selected' if @filtered_sort == 'price_low' %>>Price: low to high</option>
+              <option value="Price: high to low" <%= 'selected' if @filtered_sort == 'price_high' %>>Price: high to low</option>
+              <option value="Rating" <%= 'selected' if @filtered_sort == 'rating' %>>Rating</option>
+              <option value="Name" <%= 'selected' if @filtered_sort == 'name' %>>Name</option>
             </select>
           </div>
         </div>
 
         <!-- Property cards -->
         <div class="space-y-6">
-          <% @properties.each do |property| %>
-            <%= render "property", property: property %>
+          <% if @properties.any? %>
+            <% @properties.each do |property| %>
+              <%= render "property", property: property %>
+            <% end %>
+          <% else %>
+            <div class="bg-white rounded-2xl shadow p-8 text-center">
+              <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
+              <h3 class="text-lg font-medium text-gray-900 mb-2">No properties found</h3>
+              <p class="text-gray-600 mb-4">Try adjusting your filters or search criteria.</p>
+              <%= link_to "Clear all filters", properties_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700" %>
+            </div>
           <% end %>
         </div>
       </div>

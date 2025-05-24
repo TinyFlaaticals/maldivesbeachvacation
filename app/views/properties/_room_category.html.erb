@@ -55,7 +55,7 @@
       <p class="text-gray-700 mb-4"><%= room_category.short_description %></p>
     <% end %>
     
-    <!-- Features -->
+    <!-- Key Features -->
     <% if room_category.has_pool || room_category.has_beach_access || room_category.has_ocean_view %>
       <div class="flex flex-wrap gap-2 mb-4">
         <% if room_category.has_pool %>
@@ -75,135 +75,53 @@
         <% end %>
       </div>
     <% end %>
+
+    <!-- Comfort Amenities Section -->
+    <% if room_category.comfort_amenities.present? && room_category.comfort_amenities.is_a?(Array) && room_category.comfort_amenities.any? %>
+      <div class="mb-4">
+        <h4 class="text-sm font-medium text-gray-900 mb-2">For Your Comfort</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          <% room_category.comfort_amenities.each do |amenity| %>
+            <% next if amenity.blank? %>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm text-gray-700"><%= amenity %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
     
-    <!-- Bottom Section with Price and Details/Book Buttons -->
+    <!-- Convenience Features Section -->
+    <% if room_category.convenience_features.present? && room_category.convenience_features.is_a?(Array) && room_category.convenience_features.any? %>
+      <div class="mb-4">
+        <h4 class="text-sm font-medium text-gray-900 mb-2">For Your Convenience</h4>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+          <% room_category.convenience_features.each do |feature| %>
+            <% next if feature.blank? %>
+            <div class="flex items-center">
+              <svg class="h-4 w-4 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-sm text-gray-700"><%= feature %></span>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    
+    <!-- Price Section -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between mt-6 pt-4 border-t border-gray-200">
       <div class="mb-4 sm:mb-0">
         <div class="flex items-baseline">
           <span class="text-2xl font-bold text-gray-900">
-            <%= number_to_currency(room_category.current_price, precision: 0) %>
+            <%= number_to_currency(room_category.normal_price, precision: 0) %>
           </span>
-          <% if room_category.discounted_price.present? && room_category.discount_percent.present? %>
-            <span class="ml-2 text-sm text-gray-500 line-through">
-              <%= number_to_currency(room_category.normal_price, precision: 0) %>
-            </span>
-            <span class="ml-2 text-sm text-green-600">
-              Save <%= room_category.discount_percent %>%
-            </span>
-          <% end %>
         </div>
         <p class="text-xs text-gray-500 mt-1">Price includes service charge per stay, excludes tax</p>
       </div>
-      
-      <div class="flex space-x-3">
-        <button type="button" 
-                class="room-details-toggle inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                data-room-id="<%= room_category.id %>">
-          Room Details
-        </button>
-        <a href="#booking-form" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
-          Book Now
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Expandable Details Section -->
-  <div id="room-details-<%= room_category.id %>" class="hidden border-t border-gray-200">
-    <div class="p-6">
-      <% if room_category.full_description.present? %>
-        <div class="mb-6">
-          <h4 class="font-medium text-gray-900 mb-2">Description</h4>
-          <div class="prose prose-sm max-w-none text-gray-500">
-            <%= room_category.full_description %>
-          </div>
-        </div>
-      <% end %>
-      
-      <!-- Room Highlights -->
-      <div class="mb-6">
-        <h4 class="font-medium text-gray-900 mb-2">Room Highlights</h4>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-          <% if room_category.has_pool %>
-            <div class="flex items-center">
-              <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span>Private Pool</span>
-            </div>
-          <% end %>
-          <% if room_category.has_beach_access %>
-            <div class="flex items-center">
-              <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span>Beach Access</span>
-            </div>
-          <% end %>
-          <% if room_category.has_ocean_view %>
-            <div class="flex items-center">
-              <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span>Ocean View</span>
-            </div>
-          <% end %>
-          <% if room_category.bed_configuration.present? %>
-            <div class="flex items-center">
-              <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-              </svg>
-              <span><%= room_category.bed_configuration %></span>
-            </div>
-          <% end %>
-          <div class="flex items-center">
-            <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-            </svg>
-            <span>Sleeps <%= room_category.max_occupancy %></span>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Amenities Section -->
-      <% if room_category.comfort_amenities.present? %>
-        <% amenities = room_category.comfort_amenities.is_a?(String) ? [room_category.comfort_amenities] : room_category.comfort_amenities %>
-        <% if amenities.any? %>
-          <div class="mb-6">
-            <h4 class="font-medium text-gray-900 mb-2">For Your Comfort</h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-              <% amenities.each do |amenity| %>
-                <div class="flex items-center">
-                  <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                  </svg>
-                  <span><%= amenity %></span>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-      
-      <!-- Convenience Features -->
-      <% if room_category.convenience_features.present? %>
-        <% features = room_category.convenience_features.is_a?(String) ? [room_category.convenience_features] : room_category.convenience_features %>
-        <% if features.any? %>
-          <div>
-            <h4 class="font-medium text-gray-900 mb-2">For Your Convenience</h4>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
-              <% features.each do |feature| %>
-                <div class="flex items-center">
-                  <svg class="h-4 w-4 text-green-500 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
-                  </svg>
-                  <span><%= feature %></span>
-                </div>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
     </div>
   </div>
 </div> 

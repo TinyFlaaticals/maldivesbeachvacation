@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../javascript/property.js"],
+  "sourcesContent": ["// Property.js - JavaScript functionality for property pages\n// Room details toggle functionality has been removed - amenities are now displayed inline\n\nconsole.log(\"Property.js loaded - amenities now display inline without toggle functionality\"); "],
+  "mappings": ";AAGA,QAAQ,IAAI,gFAAgF;",
+  "names": []
+}

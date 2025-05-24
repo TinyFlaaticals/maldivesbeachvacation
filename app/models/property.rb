@@ -22,6 +22,12 @@ class Property < ApplicationRecord
   validates :name, presence: true
   validates :address, presence: true
   validates :normal_price, presence: true
+  validates :star_rating, presence: true, 
+            numericality: { 
+              greater_than_or_equal_to: 1.0, 
+              less_than_or_equal_to: 5.0,
+              message: "must be between 1.0 and 5.0" 
+            }
 
   extend FriendlyId
   friendly_id :name, use: :slugged

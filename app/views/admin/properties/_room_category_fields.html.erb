@@ -1,8 +1,7 @@
-<div class="nested-fields border p-4 rounded-lg relative mb-6" x-data="{ activeTab: 'basic' }">
-  <!-- Room Type Header and Remove Button -->
+<div class="nested-fields border p-4 rounded-lg relative mb-6">
   <div class="flex justify-between items-center mb-4 border-b pb-3">
     <div class="flex-1">
-      <%= f.label :name, 'Room Type', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+      <%= f.label :name, 'Room Name / Type', class: 'block text-sm font-medium text-gray-700 mb-1' %>
       <%= f.text_field :name, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
     </div>
     <div class="ml-4">
@@ -10,169 +9,110 @@
     </div>
   </div>
 
-  <!-- Tab Navigation -->
-  <div class="border-b border-gray-200 mb-4">
-    <nav class="-mb-px flex space-x-6">
-      <button type="button" 
-              class="py-2 px-1 text-sm font-medium border-b-2 transition-colors duration-150"
-              :class="activeTab === 'basic' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-              @click="activeTab = 'basic'">
-        Basic Info
-      </button>
-      <button type="button" 
-              class="py-2 px-1 text-sm font-medium border-b-2 transition-colors duration-150"
-              :class="activeTab === 'details' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-              @click="activeTab = 'details'">
-        Details
-      </button>
-      <button type="button" 
-              class="py-2 px-1 text-sm font-medium border-b-2 transition-colors duration-150"
-              :class="activeTab === 'amenities' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-              @click="activeTab = 'amenities'">
-        Amenities
-      </button>
-    </nav>
-  </div>
-
-  <!-- Basic Info Tab -->
-  <div x-show="activeTab === 'basic'">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-      <!-- Size -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Room Size</label>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <%= f.text_field :size_sqm, placeholder: 'Size in sq.m', class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-          </div>
-          <div>
-            <%= f.text_field :size_sqft, placeholder: 'Size in sq.ft', class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Occupancy -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Max Occupancy</label>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <%= f.number_field :max_adults, placeholder: 'Adults', min: 1, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-          </div>
-          <div>
-            <%= f.number_field :max_children, placeholder: 'Children', min: 0, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-      <!-- Room Configuration -->
-      <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1">Room Configuration</label>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <%= f.number_field :num_bedrooms, placeholder: 'Bedrooms', min: 1, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-          </div>
-          <div>
-            <%= f.number_field :num_bathrooms, placeholder: 'Bathrooms', min: 1, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Bed Configuration -->
-      <div>
-        <%= f.label :bed_configuration, 'Bed Configuration', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.text_field :bed_configuration, placeholder: 'e.g., 1 King + 2 Twin', class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-      </div>
-    </div>
-
-    <!-- Key Features -->
-    <div class="mb-4">
-      <label class="block text-sm font-medium text-gray-700 mb-2">Key Features</label>
-      <div class="flex flex-wrap gap-4">
-        <div class="flex items-center">
-          <%= f.check_box :has_pool, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' %>
-          <%= f.label :has_pool, 'Private Pool', class: 'ml-2 text-sm text-gray-700' %>
-        </div>
-        <div class="flex items-center">
-          <%= f.check_box :has_beach_access, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' %>
-          <%= f.label :has_beach_access, 'Beach Access', class: 'ml-2 text-sm text-gray-700' %>
-        </div>
-        <div class="flex items-center">
-          <%= f.check_box :has_ocean_view, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' %>
-          <%= f.label :has_ocean_view, 'Ocean View', class: 'ml-2 text-sm text-gray-700' %>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pricing -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div>
-        <%= f.label :normal_price, 'Normal Price', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.text_field :normal_price, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-      </div>
-      <div>
-        <%= f.label :discounted_price, 'Discounted Price', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.text_field :discounted_price, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-      </div>
-      <div>
-        <%= f.label :discount_percent, 'Discount %', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-        <%= f.number_field :discount_percent, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-      </div>
-    </div>
-  </div>
-
-  <!-- Details Tab -->
-  <div x-show="activeTab === 'details'" class="space-y-4">
-    <!-- Short Description -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <!-- Room Size -->
     <div>
-      <%= f.label :short_description, 'Short Description (1-2 sentences)', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-      <%= f.text_area :short_description, rows: 2, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Room Size</label>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <%= f.text_field :size_sqm, placeholder: 'Size in sq.m', class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+        </div>
+        <div>
+          <%= f.text_field :size_sqft, placeholder: 'Size in sq.ft', class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+        </div>
+      </div>
     </div>
+    <!-- Max Occupancy -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Max Occupancy</label>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <%= f.number_field :max_adults, placeholder: 'Adults', min: 1, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+        </div>
+        <div>
+          <%= f.number_field :max_children, placeholder: 'Children', min: 0, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bed Configuration -->
+  <div class="mb-4">
+    <%= f.label :bed_configuration, 'Bed Configuration', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+    <%= f.text_field :bed_configuration, placeholder: 'e.g., 1 King + 2 Twin', class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
+  </div>
+
+  <!-- Key Features -->
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Key Features</label>
+    <div class="flex flex-wrap gap-4">
+      <div class="flex items-center">
+        <%= f.check_box :has_pool, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' %>
+        <%= f.label :has_pool, 'Private Pool', class: 'ml-2 text-sm text-gray-700' %>
+      </div>
+      <div class="flex items-center">
+        <%= f.check_box :has_beach_access, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' %>
+        <%= f.label :has_beach_access, 'Beach Access', class: 'ml-2 text-sm text-gray-700' %>
+      </div>
+      <div class="flex items-center">
+        <%= f.check_box :has_ocean_view, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' %>
+        <%= f.label :has_ocean_view, 'Ocean View', class: 'ml-2 text-sm text-gray-700' %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Amenities (Comfort + Convenience as tick boxes) -->
+  <div class="mb-4">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Amenities</label>
     
-    <!-- Full Description -->
-    <div>
-      <%= f.label :full_description, 'Full Description', class: 'block text-sm font-medium text-gray-700 mb-1' %>
-      <%= f.text_area :full_description, rows: 6, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
-      <p class="mt-1 text-xs text-gray-500">Describe the room in detail, including layout, features, views, etc.</p>
-    </div>
-  </div>
-
-  <!-- Amenities Tab -->
-  <div x-show="activeTab === 'amenities'" class="space-y-6">
     <!-- Comfort Amenities -->
-    <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Comfort Amenities</label>
-      <%= f.fields_for :comfort_amenities do |amenity_fields| %>
-        <!-- This is a placeholder for a multi-select or tag input -->
-        <select class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" multiple>
-          <option>400 thread count sheets</option>
-          <option>Bathrobe</option>
-          <option>Bath slippers</option>
-          <option>Air conditioning</option>
-          <option>Black Out Curtains</option>
-          <option>Complimentary Pillow Menu</option>
-          <option>Non-Smoking</option>
-        </select>
-      <% end %>
-      <p class="mt-1 text-xs text-gray-500">Hold Ctrl/Cmd to select multiple items</p>
+    <div class="mb-3">
+      <h4 class="text-sm font-medium text-gray-600 mb-2">Comfort Amenities</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <% comfort_amenities = [
+          '400 thread count sheets', 'Bathrobe', 'Bath slippers', 'Air conditioning',
+          'Black Out Curtains', 'Complimentary Pillow Menu', 'Non-Smoking'
+        ] %>
+        <% comfort_amenities.each do |amenity| %>
+          <div class="flex items-center">
+            <input type="checkbox" 
+                   name="<%= f.object_name %>[comfort_amenities][]" 
+                   value="<%= amenity %>" 
+                   id="comfort_amenity_<%= amenity.parameterize %>"
+                   <%= 'checked' if f.object.comfort_amenities&.include?(amenity) %>
+                   class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            <label for="comfort_amenity_<%= amenity.parameterize %>" class="ml-2 text-sm text-gray-700"><%= amenity %></label>
+          </div>
+        <% end %>
+      </div>
     </div>
     
     <!-- Convenience Features -->
     <div>
-      <label class="block text-sm font-medium text-gray-700 mb-1">Convenience Features</label>
-      <%= f.fields_for :convenience_features do |feature_fields| %>
-        <!-- This is a placeholder for a multi-select or tag input -->
-        <select class="block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" multiple>
-          <option>Coffee maker</option>
-          <option>Iron/ironing board</option>
-          <option>Bathroom amenities</option>
-          <option>24 Hour Housekeeping</option>
-          <option>Convenient Electrical Outlets</option>
-          <option>In-room safe</option>
-          <option>Mini bar</option>
-        </select>
-      <% end %>
-      <p class="mt-1 text-xs text-gray-500">Hold Ctrl/Cmd to select multiple items</p>
+      <h4 class="text-sm font-medium text-gray-600 mb-2">Convenience Features</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <% convenience_features = [
+          'Coffee maker', 'Iron/ironing board', 'Bathroom amenities', '24 Hour Housekeeping',
+          'Convenient Electrical Outlets', 'In-room safe', 'Mini bar'
+        ] %>
+        <% convenience_features.each do |feature| %>
+          <div class="flex items-center">
+            <input type="checkbox" 
+                   name="<%= f.object_name %>[convenience_features][]" 
+                   value="<%= feature %>" 
+                   id="convenience_feature_<%= feature.parameterize %>"
+                   <%= 'checked' if f.object.convenience_features&.include?(feature) %>
+                   class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+            <label for="convenience_feature_<%= feature.parameterize %>" class="ml-2 text-sm text-gray-700"><%= feature %></label>
+          </div>
+        <% end %>
+      </div>
     </div>
+  </div>
+
+  <!-- Price -->
+  <div class="mb-4">
+    <%= f.label :normal_price, 'Price', class: 'block text-sm font-medium text-gray-700 mb-1' %>
+    <%= f.text_field :normal_price, class: 'block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm' %>
   </div>
 </div> 
