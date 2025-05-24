@@ -62,10 +62,10 @@ class RoomCategory < ApplicationRecord
         begin
           self.comfort_amenities = JSON.parse(comfort_amenities)
         rescue JSON::ParserError
-          self.comfort_amenities = [comfort_amenities]
+          self.comfort_amenities = [ comfort_amenities ]
         end
       elsif comfort_amenities.present?
-        self.comfort_amenities = [comfort_amenities]
+        self.comfort_amenities = [ comfort_amenities ]
       else
         self.comfort_amenities = []
       end
@@ -79,10 +79,10 @@ class RoomCategory < ApplicationRecord
         begin
           self.convenience_features = JSON.parse(convenience_features)
         rescue JSON::ParserError
-          self.convenience_features = [convenience_features]
+          self.convenience_features = [ convenience_features ]
         end
       elsif convenience_features.present?
-        self.convenience_features = [convenience_features]
+        self.convenience_features = [ convenience_features ]
       else
         self.convenience_features = []
       end

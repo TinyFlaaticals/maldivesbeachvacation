@@ -56,11 +56,11 @@ class Admin::StoriesController < AdminApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   # DELETE /stories/1/remove_image
   def remove_image
     @story.image.purge
-    
+
     redirect_to edit_admin_story_path(@story), notice: "Image was successfully removed."
   end
 

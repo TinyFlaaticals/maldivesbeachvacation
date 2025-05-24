@@ -60,21 +60,18 @@ task :setup do
     # Remove others-permission for config directory
     command %(chmod -R o-rwx config)
   end
-  command %[chmod g+rx,u+rwx "#{fetch(:shared_path)}/config"]
-  
+  command %(chmod g+rx,u+rwx "#{fetch(:shared_path)}/config")
+
   # Upload master.key
-  command %[echo "#{File.read('config/master.key')}" > "#{fetch(:shared_path)}/config/master.key"]
-  command %[chmod 600 "#{fetch(:shared_path)}/config/master.key"]
-  
+  command %(echo "#{File.read('config/master.key')}" > "#{fetch(:shared_path)}/config/master.key")
+  command %(chmod 600 "#{fetch(:shared_path)}/config/master.key")
+
   # Upload credentials.yml.enc
-  command %[echo "#{File.read('config/credentials/production.yml.enc')}" > "#{fetch(:shared_path)}/config/credentials/production.yml.enc"]
-  command %[chmod 600 "#{fetch(:shared_path)}/config/credentials/production.yml.enc"]
+  command %(echo "#{File.read('config/credentials/production.yml.enc')}" > "#{fetch(:shared_path)}/config/credentials/production.yml.enc")
+  command %(chmod 600 "#{fetch(:shared_path)}/config/credentials/production.yml.enc")
 
-  command %[echo "#{File.read('config/credentials/production.key')}" > "#{fetch(:shared_path)}/config/credentials/production.key"]
-  command %[chmod 600 "#{fetch(:shared_path)}/config/credentials/production.key"]
-
-  
-
+  command %(echo "#{File.read('config/credentials/production.key')}" > "#{fetch(:shared_path)}/config/credentials/production.key")
+  command %(chmod 600 "#{fetch(:shared_path)}/config/credentials/production.key")
 end
 
 desc "Deploys the current version to the server."
@@ -108,8 +105,8 @@ end
 
 desc "Drops the database and sets up a fresh one"
 task :reset_db do
-  command %[cd #{fetch(:current_path)}]
-  command %[bundle exec rake db:drop RAILS_ENV=production DISABLE_DATABASE_ENVIRONMENT_CHECK=1]
+  command %(cd #{fetch(:current_path)})
+  command %(bundle exec rake db:drop RAILS_ENV=production DISABLE_DATABASE_ENVIRONMENT_CHECK=1)
 end
 
 desc "Resets the database and runs migrations"

@@ -15,7 +15,7 @@ class Booking < ApplicationRecord
   before_create :generate_token
 
   private
-  
+
   def generate_token
     self.token = SecureRandom.uuid
   end

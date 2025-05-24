@@ -6,8 +6,8 @@ class PropertiesController < ApplicationController
 
     # Handle search
     if params[:search].present?
-      @properties = @properties.where("name ILIKE ? OR address ILIKE ? OR tagline ILIKE ? OR short_description ILIKE ?", 
-                                      "%#{params[:search]}%", "%#{params[:search]}%", 
+      @properties = @properties.where("name ILIKE ? OR address ILIKE ? OR tagline ILIKE ? OR short_description ILIKE ?",
+                                      "%#{params[:search]}%", "%#{params[:search]}%",
                                       "%#{params[:search]}%", "%#{params[:search]}%")
     end
 
@@ -24,7 +24,7 @@ class PropertiesController < ApplicationController
 
     # Handle price range checkboxes
     if params[:price_range].present?
-      min_max = params[:price_range].split('-')
+      min_max = params[:price_range].split("-")
       @filtered_min_price = min_max[0]
       @filtered_max_price = min_max[1]
     end
@@ -39,13 +39,13 @@ class PropertiesController < ApplicationController
 
     # Handle sorting
     case params[:sort]
-    when 'price_low'
+    when "price_low"
       @properties = @properties.order(:normal_price)
-    when 'price_high'
+    when "price_high"
       @properties = @properties.order(normal_price: :desc)
-    when 'rating'
+    when "rating"
       @properties = @properties.order(star_rating: :desc)
-    when 'name'
+    when "name"
       @properties = @properties.order(:name)
     else
       # Default recommended sorting (could be by star_rating desc + price asc)

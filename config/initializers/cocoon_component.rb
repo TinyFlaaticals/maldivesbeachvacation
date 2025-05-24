@@ -1,2 +1,2 @@
 # Use Cocoon for nested forms
-require 'cocoon' 
+require "cocoon"

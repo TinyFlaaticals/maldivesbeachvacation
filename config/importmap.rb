@@ -1,1 +1,1 @@
-pin "cocoon-js" 
+pin "cocoon-js"
