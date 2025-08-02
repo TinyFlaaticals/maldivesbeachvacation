@@ -11,7 +11,7 @@ if Rails.env.development?
     open_timeout: 5,
     read_timeout: 5
   }
-  
+
   ActionMailer::Base.delivery_method = :smtp
   ActionMailer::Base.perform_deliveries = true
   ActionMailer::Base.raise_delivery_errors = true
