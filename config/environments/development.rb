@@ -77,12 +77,12 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
+    address: "smtppro.zoho.com",
     port: 587,
-    domain: "gmail.com",
-    user_name: "ib.azhad@gmail.com",
-    password: "maxu muqu ycfy mlmc",
-    authentication: "plain",
+    domain: "summerdust.com",
+    user_name: "contact@summerdust.com",
+    password: "pMeHajZX3vYk",
+    authentication: :plain,
     enable_starttls_auto: true
   }
 

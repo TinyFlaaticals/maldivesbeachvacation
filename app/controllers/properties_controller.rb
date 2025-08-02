@@ -62,7 +62,12 @@ class PropertiesController < ApplicationController
     @booking.property = @property
 
     if @booking.save
-      BookingMailer.new_booking(@booking).deliver_now if defined?(BookingMailer)
+      begin
+        BookingMailer.new_booking(@booking).deliver_now if defined?(BookingMailer)
+      rescue => e
+        Rails.logger.error "Failed to send booking email: #{e.message}"
+        # Continue with booking creation even if email fails
+      end
       redirect_to booking_path(id: @booking.token), notice: "Booking was successfully created."
     else
       render :show, status: :unprocessable_entity

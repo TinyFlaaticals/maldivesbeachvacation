@@ -48,3 +48,5 @@ yarn-debug.log*
 .vscode/
 *.swp
 *.swo
+
+/config/credentials/production.key
