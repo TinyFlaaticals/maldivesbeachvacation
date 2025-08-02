@@ -5,7 +5,7 @@ if Rails.env.development?
     port: 587,
     domain: "summerdust.com",
     user_name: "contact@summerdust.com",
-    password: "pMeHajZX3vYk",
+    password: ENV['SMTP_PASSWORD'] || Rails.application.credentials.dig(:smtp, :password),
     authentication: :plain,
     enable_starttls_auto: true,
     open_timeout: 5,
