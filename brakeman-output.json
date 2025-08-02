@@ -3,9 +3,9 @@
     "app_path": "/Users/ayasmacbook/maldivesbeachvacation",
     "rails_version": "8.0.0.1",
     "security_warnings": 0,
-    "start_time": "2025-05-12 10:38:31 +0500",
-    "end_time": "2025-05-12 10:38:32 +0500",
-    "duration": 1.239221,
+    "start_time": "2025-08-02 23:51:53 +0500",
+    "end_time": "2025-08-02 23:51:54 +0500",
+    "duration": 1.204828,
     "checks_performed": [
       "BasicAuth",
       "BasicAuthTimingAttack",
@@ -90,7 +90,7 @@
     "number_of_models": 18,
     "number_of_templates": 93,
     "ruby_version": "3.3.4",
-    "brakeman_version": "6.2.2"
+    "brakeman_version": "7.0.2"
   },
   "warnings": [],
   "ignored_warnings": [],
