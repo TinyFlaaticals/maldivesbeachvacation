@@ -101,7 +101,7 @@
               </div>
               <div class="flex justify-between items-center">
                 <div class="text-sm text-gray-500">Current image</div>
-                <%= link_to "Remove", remove_image_admin_story_path(@story), method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+                <%= link_to "Remove", remove_image_admin_story_path(@story), class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { turbo_method: :delete, confirm: "Are you sure you want to remove this image?" } %>
               </div>
             <% end %>
             

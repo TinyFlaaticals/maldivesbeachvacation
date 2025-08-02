@@ -133,7 +133,7 @@
                   </div>
                   <div class="flex justify-between items-center mb-4">
                     <div class="text-sm text-gray-500">Current image</div>
-                    <%= link_to "Remove", remove_hero_image_admin_admin_config_path, method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+                    <%= link_to "Remove", remove_hero_image_admin_admin_config_path, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { turbo_method: :delete, confirm: "Are you sure you want to remove this image?" } %>
                   </div>
                 <% end %>
                 
@@ -170,7 +170,7 @@
               </div>
               <div class="flex justify-between items-center mb-4">
                 <div class="text-sm text-gray-500">Current image</div>
-                <%= link_to "Remove", remove_middle_image_admin_admin_config_path, method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+                <%= link_to "Remove", remove_middle_image_admin_admin_config_path, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { turbo_method: :delete, confirm: "Are you sure you want to remove this image?" } %>
               </div>
             <% end %>
             
@@ -211,7 +211,7 @@
                   </div>
                   <div class="flex justify-between items-center mb-4">
                     <div class="text-sm text-gray-500">Current image</div>
-                    <%= link_to "Remove", remove_about_image_admin_admin_config_path, method: :delete, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { confirm: "Are you sure you want to remove this image?" } %>
+                    <%= link_to "Remove", remove_about_image_admin_admin_config_path, class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 text-xs font-medium rounded text-red-700 bg-white hover:bg-gray-50", data: { turbo_method: :delete, confirm: "Are you sure you want to remove this image?" } %>
                   </div>
                 <% end %>
                 
