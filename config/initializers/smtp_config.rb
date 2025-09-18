@@ -1,12 +1,9 @@
-# SMTP Configuration for Development
+# SMTP Configuration for Google Workspace Relay
 if Rails.env.development?
   ActionMailer::Base.smtp_settings = {
-    address: "smtppro.zoho.com",
+    address: "smtp-relay.gmail.com",
     port: 587,
-    domain: "summerdust.com",
-    user_name: "contact@summerdust.com",
-    password: ENV["SMTP_PASSWORD"] || Rails.application.credentials.dig(:smtp, :password),
-    authentication: :plain,
+    domain: "summerdust.com", # Your verified domain
     enable_starttls_auto: true,
     open_timeout: 5,
     read_timeout: 5

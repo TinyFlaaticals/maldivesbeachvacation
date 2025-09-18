@@ -68,14 +68,11 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.delivery_method = :smtp
 
-  # Specify outgoing SMTP server settings
+  # Specify Google Workspace SMTP Relay settings
   config.action_mailer.smtp_settings = {
-    address: Rails.application.credentials.dig(:smtp, :address),
-    port: Rails.application.credentials.dig(:smtp, :port),
-    domain: Rails.application.credentials.dig(:smtp, :domain),
-    user_name: Rails.application.credentials.dig(:smtp, :username),
-    password: Rails.application.credentials.dig(:smtp, :password),
-    authentication: :plain,
+    address: "smtp-relay.gmail.com",
+    port: 587,
+    domain: "summerdust.com", # Your verified domain
     enable_starttls_auto: true,
     open_timeout: 5,
     read_timeout: 5
