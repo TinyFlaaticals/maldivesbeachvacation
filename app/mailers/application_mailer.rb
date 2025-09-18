@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "Maldives Beach Vacation <contact@summerdust.com>"
+  default from: "Maldives Beach Vacation <hello@maldivesbeachvacation.com>"
   layout "mailer"
 end

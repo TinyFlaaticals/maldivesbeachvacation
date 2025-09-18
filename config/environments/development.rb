@@ -72,16 +72,18 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
+  # Use SMTP for actual email sending in development
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
 
+  # Gmail SMTP configuration
   config.action_mailer.smtp_settings = {
-    address: "smtppro.zoho.com",
+    address: "smtp.gmail.com",
     port: 587,
-    domain: "summerdust.com",
-    user_name: "contact@summerdust.com",
-    password: "pMeHajZX3vYk",
+    domain: "gmail.com",
+    user_name: ENV['GMAIL_USERNAME'] || "hello@maldivesbeachvacation.com",
+    password: ENV['GMAIL_APP_PASSWORD'] || "your-app-password-here",
     authentication: :plain,
     enable_starttls_auto: true
   }
