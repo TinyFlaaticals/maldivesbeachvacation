@@ -2,10 +2,33 @@
 <html>
 
 <head>
-    <title><%= content_for(:title) || "Maldives Beach Vacation" %></title>
+    <title><%= content_for(:title) || "Maldives Beach Vacation - Luxury Resort Booking in Maldives" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="<%= content_for(:description) || 'Book luxury resorts and villas in Maldives with Maldives Beach Vacation. Discover pristine beaches, overwater bungalows, and world-class amenities for your perfect tropical getaway.' %>">
+    <meta name="keywords" content="<%= content_for(:keywords) || 'Maldives, resort booking, luxury villas, overwater bungalows, tropical vacation, beach resort, Maldives hotels, island resort, honeymoon destination' %>">
+    <meta name="author" content="Maldives Beach Vacation Pvt Ltd">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="<%= request.original_url %>">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= request.original_url %>">
+    <meta property="og:title" content="<%= content_for(:title) || 'Maldives Beach Vacation - Luxury Resort Booking' %>">
+    <meta property="og:description" content="<%= content_for(:description) || 'Book luxury resorts and villas in Maldives. Discover pristine beaches and world-class amenities.' %>">
+    <meta property="og:image" content="<%= asset_url('logo.png') %>">
+    <meta property="og:site_name" content="Maldives Beach Vacation">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="<%= request.original_url %>">
+    <meta property="twitter:title" content="<%= content_for(:title) || 'Maldives Beach Vacation - Luxury Resort Booking' %>">
+    <meta property="twitter:description" content="<%= content_for(:description) || 'Book luxury resorts and villas in Maldives. Discover pristine beaches and world-class amenities.' %>">
+    <meta property="twitter:image" content="<%= asset_url('logo.png') %>">
+    
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>

@@ -1,3 +1,34 @@
+<% content_for :head do %>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Maldives Beach Vacation",
+    "description": "Luxury resort booking and travel services in Maldives",
+    "url": "https://maldivesbeachvacation.com",
+    "logo": "<%= asset_url('logo.png') %>",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "MV"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "hello@maldivesbeachvacation.com",
+      "contactType": "customer service"
+    },
+    "sameAs": [
+      "https://www.instagram.com/maldivesbeachvacation/",
+      "https://www.facebook.com/maldivesbeachvacation"
+    ],
+    "offers": {
+      "@type": "Offer",
+      "category": "Travel Services",
+      "description": "Luxury resort bookings in Maldives"
+    }
+  }
+  </script>
+<% end %>
+
 <!-- Hero Section -->
 <section class="bg-white py-8">
     <div class="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
