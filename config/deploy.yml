@@ -36,6 +36,7 @@ env:
   secret:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
+    - SECRET_KEY_BASE
   clear:
     DB_HOST: resort_booking-db
     POSTGRES_USER: resort_booking
