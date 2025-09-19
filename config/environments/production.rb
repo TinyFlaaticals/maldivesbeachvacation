@@ -101,9 +101,7 @@ Rails.application.configure do
   
   # Allow Docker container hostnames for health checks and internal requests
   config.host_authorization = { exclude: ->(request) { 
-    request.path == "/up" || 
-    request.host.match?(/^[a-f0-9]+:80$/) || # Docker container hostname pattern
-    request.host.match?(/\.internal$/) # Docker internal domain
+    request.path == "/up" # Always allow health checks regardless of host
   } }
   #
   # Skip DNS rebinding protection for the default health check endpoint.
