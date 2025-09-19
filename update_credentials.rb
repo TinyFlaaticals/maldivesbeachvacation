@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'rails/all'
+require 'active_support/encrypted_configuration'
+
+Rails.application = Class.new(Rails::Application).new
+Rails.application.config.load_defaults 8.0
+
+key_path = Rails.root.join('config/credentials/production.key')
+credentials_path = Rails.root.join('config/credentials/production.yml.enc')
+
+# Read the key
+key = File.read(key_path).strip
+
+# Create the new credentials content
+new_content = <<~YAML
+smtp:
+  username: hello@maldivesbeachvacation.com
+  password: rhnr nuxt rrzy uwau
+
+digitalocean:
+  access_key_id: DO801ZAMMYD6NZ2DZAZ6
+  secret_access_key: fuqNe7faOxHVawJi9RXmLTaNG/mA0UTC4BT/1OysOeY
+  region: nyc3
+  bucket: maldives-vacation-production-storage
+  endpoint: https://nyc3.digitaloceanspaces.com
+
+secret_key_base: 9793876a27433944451394315b1a4f2a6f380884a38e886fa8d33601a235d3ec60bcc3323ec3650febcd2e2f21b283d3e707012860d66d28e1ec70006aef9b74
+YAML
+
+# Encrypt and write the credentials
+encryptor = ActiveSupport::MessageEncryptor.new([key].pack('H*'), cipher: 'aes-128-gcm')
+encrypted_data = encryptor.encrypt_and_sign(new_content)
+File.write(credentials_path, encrypted_data)
+
+puts "✅ Production credentials updated successfully!"
+puts "   - Gmail SMTP configured"
+puts "   - DigitalOcean Spaces configured"
+puts "   - Secret key base preserved"
