@@ -56,6 +56,9 @@ Rails.application.routes.draw do
 
   # SEO Routes
   get "sitemap.xml" => "sitemap#index", defaults: { format: "xml" }
+  
+  # Static sitemap fallback - serve from public directory
+  get "sitemap" => redirect("/sitemap.xml")
 
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
