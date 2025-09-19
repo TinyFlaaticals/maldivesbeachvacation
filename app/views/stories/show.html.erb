@@ -89,7 +89,8 @@
       
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <% @popular_properties.each do |property| %>
-          <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
+          <%= link_to property, class: "block w-full h-full" do %>
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 h-full flex flex-col">
             <!-- Property Image with Rating -->
             <div class="relative aspect-[4/3]">
               <% if property.property_images.any? && property.property_images.first.image.attached? %>
@@ -140,7 +141,8 @@
                 <p class="text-xs text-gray-500">Includes taxes and fees</p>
               </div>
             </div>
-          </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
