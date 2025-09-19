@@ -7,7 +7,7 @@ image: ibazhad/resort_booking
 # Deploy to these servers.
 servers:
   web:
-    - 139.59.109.98
+    - 139.59.22.46
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -19,7 +19,7 @@ servers:
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
 proxy:
   ssl: true
-  host: summerdust.com
+  host: maldivesbeachvacation.com
 
 # Credentials for your image host.
 registry:
@@ -100,7 +100,7 @@ builder:
 accessories:
   db:
     image: postgres:15
-    host: 139.59.109.98
+    host: 139.59.22.46
     port: "127.0.0.1:5432:5432"
     env:
       clear:

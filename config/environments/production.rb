@@ -62,7 +62,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "summerdust.com", protocol: "https" }
+  config.action_mailer.default_url_options = { host: "maldivesbeachvacation.com", protocol: "https" }
 
   # Enable delivery errors
   config.action_mailer.raise_delivery_errors = true
@@ -93,9 +93,12 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    "summerdust.com",
-    "www.summerdust.com"
+    "maldivesbeachvacation.com",
+    "www.maldivesbeachvacation.com"
   ]
+  
+  # Allow Docker container hostnames for health checks
+  config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
