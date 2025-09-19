@@ -41,5 +41,8 @@ module ResortBooking
     config.generators do |g|
       g.jbuilder = false
     end
+
+    # Configure Active Storage to use libvips for image processing
+    config.active_storage.variant_processor = :vips
   end
 end
