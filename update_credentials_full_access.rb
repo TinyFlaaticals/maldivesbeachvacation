@@ -12,15 +12,15 @@ credentials_path = Rails.root.join('config/credentials/production.yml.enc')
 # Read the key
 key = File.read(key_path).strip
 
-# Create the new credentials content
+# Create the new credentials content with Full Access keys
 new_content = <<~YAML
 smtp:
   username: hello@maldivesbeachvacation.com
   password: rhnr nuxt rrzy uwau
 
 digitalocean:
-  access_key_id: DO801ZAMMYD6NZ2DZAZ6
-  secret_access_key: fuqNe7faOxHVawJi9RXmLTaNG/mA0UTC4BT/1OysOeY
+  access_key_id: DO0088U6T3TXPCD7DKAR
+  secret_access_key: ghvwws2x8khAKpnq/0Gm0bOu3HJALllAcpipaDMNdus
   region: nyc3
   bucket: maldives-vacation-production-storage
   endpoint: https://nyc3.digitaloceanspaces.com
@@ -33,7 +33,7 @@ encryptor = ActiveSupport::MessageEncryptor.new([key].pack('H*'), cipher: 'aes-1
 encrypted_data = encryptor.encrypt_and_sign(new_content)
 File.write(credentials_path, encrypted_data)
 
-puts "✅ Production credentials updated successfully!"
+puts "✅ Production credentials updated with Full Access keys!"
 puts "   - Gmail SMTP configured"
-puts "   - DigitalOcean Spaces configured"
+puts "   - DigitalOcean Spaces with Full Access keys"
 puts "   - Secret key base preserved"
