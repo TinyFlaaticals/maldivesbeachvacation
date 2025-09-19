@@ -49,4 +49,3 @@ yarn-debug.log*
 *.swp
 *.swo
 
-/config/credentials/production.key
