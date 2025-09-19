@@ -52,6 +52,9 @@ RUN bundle install && \
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
+# Add cache bust argument
+ARG CACHE_BUST=1
+
 # Copy application code
 COPY . .
 
