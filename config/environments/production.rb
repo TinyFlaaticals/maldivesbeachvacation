@@ -94,11 +94,17 @@ Rails.application.configure do
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
     "maldivesbeachvacation.com",
-    "www.maldivesbeachvacation.com"
+    "www.maldivesbeachvacation.com",
+    IPAddr.new("0.0.0.0/0"), # Allow any IP for Docker networking
+    /.*\.internal$/, # Allow Docker internal hostnames
   ]
   
-  # Allow Docker container hostnames for health checks
-  config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+  # Allow Docker container hostnames for health checks and internal requests
+  config.host_authorization = { exclude: ->(request) { 
+    request.path == "/up" || 
+    request.host.match?(/^[a-f0-9]+:80$/) || # Docker container hostname pattern
+    request.host.match?(/\.internal$/) # Docker internal domain
+  } }
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
