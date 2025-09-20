@@ -46,6 +46,7 @@ module ResortBooking
     config.active_storage.variant_processor = :vips
     
     # Add WWW redirect middleware
-    config.middleware.use "WwwRedirect"
+    require_relative '../lib/www_redirect'
+    config.middleware.use WwwRedirect
   end
 end
