@@ -12,7 +12,7 @@
     <meta name="keywords" content="<%= content_for(:keywords) || 'Maldives, resort booking, luxury villas, overwater bungalows, tropical vacation, beach resort, Maldives hotels, island resort, honeymoon destination' %>">
     <meta name="author" content="Maldives Beach Vacation Pvt Ltd">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="<%= request.original_url.sub(/^https?:\/\/www\./, 'https://') %>">
+    <link rel="canonical" href="<%= request.original_url.sub(/^https?:\/\/(?!www\.)/, 'https://www.') %>">
     
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="E-_UKHBTzy0beUHYXnC_r7caxaQf-sT01AX88rNe1-c">

@@ -7,10 +7,10 @@ class WwwRedirect
     request = Rack::Request.new(env)
     
     # Only redirect in production
-    if Rails.env.production? && request.host.start_with?('www.')
-      # Redirect www to non-www
-      non_www_url = "#{request.scheme}://#{request.host.sub(/^www\./, '')}#{request.fullpath}"
-      [301, { 'Location' => non_www_url }, ['Moved Permanently']]
+    if Rails.env.production? && !request.host.start_with?('www.')
+      # Redirect non-www to www
+      www_url = "#{request.scheme}://www.#{request.host}#{request.fullpath}"
+      [301, { 'Location' => www_url }, ['Moved Permanently']]
     else
       @app.call(env)
     end
