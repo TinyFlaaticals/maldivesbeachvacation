@@ -6,6 +6,9 @@ class WwwRedirect
   def call(env)
     request = Rack::Request.new(env)
     
+    # Don't redirect health check or internal requests
+    return @app.call(env) if request.path == '/up' || request.user_agent&.include?('kamal-proxy')
+    
     # Only redirect in production
     if Rails.env.production? && !request.host.start_with?('www.')
       # Redirect non-www to www
