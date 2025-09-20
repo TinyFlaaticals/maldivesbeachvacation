@@ -20,6 +20,10 @@ servers:
 proxy:
   ssl: true
   host: maldivesbeachvacation.com
+  # Also handle www subdomain
+  hosts:
+    - maldivesbeachvacation.com
+    - www.maldivesbeachvacation.com
 
 # Credentials for your image host.
 registry:

@@ -44,5 +44,8 @@ module ResortBooking
 
     # Configure Active Storage to use libvips for image processing
     config.active_storage.variant_processor = :vips
+    
+    # Add WWW redirect middleware
+    config.middleware.use "WwwRedirect"
   end
 end
