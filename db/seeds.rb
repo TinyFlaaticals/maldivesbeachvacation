@@ -192,7 +192,7 @@ end
 puts "Admin user created!"
 
 # Create default AdminConfig
-AdminConfig.find_or_create_by!(id: 1) do |config|
+admin_config = AdminConfig.find_or_create_by!(id: 1) do |config|
   config.contact_email = 'hello@maldivesbeachvacation.com'
   config.contact_phone = '+960 999-9999'
   config.hero_title = 'Discover Paradise in the Maldives'
@@ -200,5 +200,8 @@ AdminConfig.find_or_create_by!(id: 1) do |config|
   config.office_hours_weekday = '9:00 AM - 6:00 PM'
   config.office_hours_saturday = '10:00 AM - 4:00 PM'
 end
+
+# Ensure the email is correct (fix any existing typos)
+admin_config.update!(contact_email: 'hello@maldivesbeachvacation.com') if admin_config.contact_email != 'hello@maldivesbeachvacation.com'
 
 puts "AdminConfig created!"
