@@ -190,3 +190,15 @@ Admin.find_or_create_by!(email: 'admin@maldivesbeachvacation.com') do |admin|
 end
 
 puts "Admin user created!"
+
+# Create default AdminConfig
+AdminConfig.find_or_create_by!(id: 1) do |config|
+  config.contact_email = 'hello@maldivesbeachvacation.com'
+  config.contact_phone = '+960 999-9999'
+  config.hero_title = 'Discover Paradise in the Maldives'
+  config.hero_subtitle = 'Luxury resorts, crystal clear waters, and unforgettable experiences'
+  config.office_hours_weekday = '9:00 AM - 6:00 PM'
+  config.office_hours_saturday = '10:00 AM - 4:00 PM'
+end
+
+puts "AdminConfig created!"
