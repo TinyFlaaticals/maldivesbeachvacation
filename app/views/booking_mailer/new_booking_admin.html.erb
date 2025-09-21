@@ -1,12 +1,8 @@
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <h1 style="color: #2c3e50;">BOOKING CONFIRMATION</h1>
+    <h1 style="color: #2c3e50;">New Booking Received</h1>
 
     <p style="font-size: 16px; line-height: 1.5;">
-        Dear <%= @booking.full_name %>,
-    </p>
-
-    <p style="font-size: 16px; line-height: 1.5;">
-        Thank you for choosing <%= @property.name %>! We have received your booking and will contact you shortly to confirm the details.
+        A new booking has been received for <%= @property.name %>.
     </p>
 
     <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #007bff;">
@@ -47,24 +43,13 @@
         <p style="margin: 5px 0;"><strong>Tagline:</strong> <%= @property.tagline %></p>
     </div>
 
-    <p style="font-size: 16px; line-height: 1.5;">
-        If you have any questions or need to make changes to your booking, please contact us immediately.
+    <p style="font-size: 16px; line-height: 1.5; margin-top: 30px;">
+        Please follow up with the customer to confirm their booking.
     </p>
 
-    <p style="font-size: 16px; line-height: 1.5; margin-bottom: 30px;">
-        Best regards,<br>
-        The Maldives Beach Vacation Team
-    </p>
-
-    <div style="border-top: 1px solid #eee; padding-top: 20px;">
-        <h4 style="color: #2c3e50; margin: 0 0 10px 0; font-size: 16px;">
-            Maldives Beach Vacation
-        </h4>
+    <div style="border-top: 1px solid #eee; padding-top: 20px; margin-top: 30px;">
         <p style="color: #666; font-size: 14px; margin: 0;">
-            Licensed Travel Agency by Summer Dust Pvt Ltd (License No: TRA-1978)
-        </p>
-        <p style="color: #666; font-size: 14px; margin: 5px 0 0 0;">
-            Email: hello@maldivesbeachvacation.com
+            This email was automatically generated from the Maldives Beach Vacation booking system.
         </p>
     </div>
 </div>

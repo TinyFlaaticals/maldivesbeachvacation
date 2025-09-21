@@ -63,9 +63,12 @@ class PropertiesController < ApplicationController
 
     if @booking.save
       begin
-        BookingMailer.new_booking(@booking).deliver_now if defined?(BookingMailer)
+        # Send confirmation email to customer
+        BookingMailer.new_booking(@booking).deliver_now
+        # Send notification email to admin
+        BookingMailer.new_booking_admin(@booking).deliver_now
       rescue => e
-        Rails.logger.error "Failed to send booking email: #{e.message}"
+        Rails.logger.error "Failed to send booking emails: #{e.message}"
         # Continue with booking creation even if email fails
       end
       redirect_to booking_path(id: @booking.token), notice: "Booking was successfully created."

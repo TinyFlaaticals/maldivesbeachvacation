@@ -27,10 +27,13 @@ class PagesController < ApplicationController
     begin
       admin_config = AdminConfig.instance
       if admin_config.contact_email.present?
+        # Send notification to admin
         BookingMailer.contact_email(params[:email], params[:message], params[:subject]).deliver_now
+        # Send confirmation to user
+        BookingMailer.contact_confirmation(params[:email], params[:message], params[:subject]).deliver_now
         redirect_to contact_path, notice: "Thank you for contacting us. We will get back to you soon."
       else
-        redirect_to contact_path, notice: "Admin email is not set. Please contact the administrator."
+        redirect_to contact_path, alert: "Admin email is not set. Please contact the administrator."
       end
     rescue => e
       Rails.logger.error "Error processing contact form: #{e.message}"
