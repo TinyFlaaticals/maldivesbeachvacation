@@ -63,13 +63,15 @@ class PropertiesController < ApplicationController
 
     if @booking.save
       begin
-        # Send confirmation email to customer
-        BookingMailer.new_booking(@booking).deliver_now
-        # Send notification email to admin
-        BookingMailer.new_booking_admin(@booking).deliver_now
+        # Send confirmation email to customer (asynchronously)
+        BookingMailer.new_booking(@booking).deliver_later
+        # Send notification email to admin (asynchronously)
+        BookingMailer.new_booking_admin(@booking).deliver_later
+        Rails.logger.info "Booking emails queued successfully for booking #{@booking.id}"
       rescue => e
-        Rails.logger.error "Failed to send booking emails: #{e.message}"
-        # Continue with booking creation even if email fails
+        Rails.logger.error "Failed to queue booking emails: #{e.message}"
+        Rails.logger.error "Backtrace: #{e.backtrace.first(5).join("\n")}"
+        # Continue with booking creation even if email queuing fails
       end
       redirect_to booking_path(id: @booking.token), notice: "Booking was successfully created."
     else

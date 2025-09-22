@@ -23,7 +23,7 @@
 ### **HOURS 8-16: CONFIGURATION**
 - [ ] Update `config/deploy.yml` with client domain
 - [ ] Configure production environment settings
-- [ ] Set up Gmail SMTP credentials
+- [ ] Configure Resend API for email delivery
 - [ ] Configure DigitalOcean Spaces
 - [ ] Update database credentials
 - [ ] Prepare deployment secrets
@@ -91,8 +91,7 @@ ADMIN_PASSWORD: [Secure Password]
 ### **TECHNICAL CREDENTIALS**
 ```
 DROPLET_IP: [139.59.22.46]
-GMAIL_USERNAME: hello@[CLIENT_DOMAIN].com
-GMAIL_APP_PASSWORD: [16-char-password]
+RESEND_API_KEY: [resend-api-key]
 POSTGRES_PASSWORD: [secure-password]
 DO_ACCESS_KEY_ID: [DigitalOcean Access Key]
 DO_SECRET_ACCESS_KEY: [DigitalOcean Secret Key]
@@ -259,11 +258,11 @@ URL: https://[CLIENT_DOMAIN].com/admins/sign_in
 Email: admin@[CLIENT_DOMAIN].com
 Password: [SECURE_PASSWORD]
 
-📧 EMAIL ACCOUNT
-Email: hello@[CLIENT_DOMAIN].com
-App Password: [16_CHAR_PASSWORD]
-SMTP Server: smtp.gmail.com
-Port: 587
+📧 EMAIL SERVICE
+Service: Resend API
+From Address: hello@[CLIENT_DOMAIN].com
+API Key: [RESEND_API_KEY]
+No SMTP ports required
 
 🖥️ SERVER DETAILS
 Provider: DigitalOcean
@@ -296,7 +295,7 @@ CDN: Enabled
 - **Server (DigitalOcean)**: $6/month
 - **Storage (Spaces)**: $5/month  
 - **Domain SSL**: Free (Let's Encrypt)
-- **Email**: Free (Gmail)
+- **Email**: Free (Resend API - 3,000 emails/month free tier)
 - **Total Infrastructure**: $11/month
 
 ### **SETUP COSTS (ONE-TIME)**

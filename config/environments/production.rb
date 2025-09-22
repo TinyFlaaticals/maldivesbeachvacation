@@ -66,22 +66,10 @@ Rails.application.configure do
 
   # Enable delivery errors
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :smtp
-
-  # Gmail SMTP settings for production - using SSL on port 465
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 465,
-    domain: "maldivesbeachvacation.com",
-    user_name: Rails.application.credentials.smtp&.dig(:username),
-    password: Rails.application.credentials.smtp&.dig(:password),
-    authentication: :plain,
-    ssl: true,
-    tls: false,
-    enable_starttls_auto: false,
-    open_timeout: 30,
-    read_timeout: 30
-  }
+  
+  # Use Resend API for email delivery (no SMTP required)
+  config.action_mailer.delivery_method = :resend
+  config.action_mailer.perform_deliveries = true
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

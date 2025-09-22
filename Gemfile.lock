@@ -294,6 +294,8 @@ GEM
     regexp_parser (2.9.3)
     reline (0.5.12)
       io-console (~> 0.5)
+    resend (0.25.0)
+      httparty (>= 0.21.0)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
@@ -407,7 +409,7 @@ DEPENDENCIES
   devise (~> 4.9)
   dotenv-rails
   friendly_id (~> 5.5)
-  httparty (~> 0.22.0)
+  httparty (>= 0.19.1)
   image_processing (~> 1.2)
   jbuilder
   jsbundling-rails
@@ -416,6 +418,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.0)
+  resend
   rubocop-rails-omakase
   solid_cable
   solid_cache

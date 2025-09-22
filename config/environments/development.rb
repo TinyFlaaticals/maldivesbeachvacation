@@ -72,21 +72,10 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: "localhost", port: 3000 }
 
-  # Use SMTP for actual email sending in development
-  config.action_mailer.delivery_method = :smtp
+  # Use Resend API for email delivery in development
+  config.action_mailer.delivery_method = :resend
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-
-  # Gmail SMTP configuration
-  config.action_mailer.smtp_settings = {
-    address: "smtp.gmail.com",
-    port: 587,
-    domain: "maldivesbeachvacation.com",
-    user_name: ENV['GMAIL_USERNAME'] || "hello@maldivesbeachvacation.com",
-    password: ENV['GMAIL_APP_PASSWORD'] || "your-app-password-here",
-    authentication: :plain,
-    enable_starttls_auto: true
-  }
 
 
   config.hosts << "testing.mytec.mv"

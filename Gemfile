@@ -72,8 +72,11 @@ gem "friendly_id", "~> 5.5"
 
 gem "active_link_to", "~> 1.0"
 
-gem "httparty", "~> 0.22.0"
+gem "httparty", ">= 0.19.1"
 
 gem "cocoon", "~> 1.2"
 
 gem "aws-sdk-s3", require: false  # For DigitalOcean Spaces (S3-compatible storage)
+
+# Email delivery service
+gem "resend"
