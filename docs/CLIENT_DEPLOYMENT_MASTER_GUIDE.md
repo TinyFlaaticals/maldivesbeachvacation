@@ -25,7 +25,7 @@ This documentation provides a complete guide for rapidly deploying customized ve
 - **Frontend**: Tailwind CSS + Alpine.js + Stimulus
 - **File Storage**: DigitalOcean Spaces (S3-compatible)
 - **Deployment**: Kamal + Docker
-- **Email**: Gmail SMTP
+- **Email**: Resend API (no SMTP)
 - **Authentication**: Devise
 - **Background Jobs**: Solid Queue
 - **Cache**: Solid Cache
@@ -267,18 +267,17 @@ A       www     [DROPLET_IP]         300
 
 ### **2. EMAIL CONFIGURATION**
 
-#### **A. Gmail SMTP Setup**
+#### **A. Resend API Setup**
 **Required Steps:**
-1. Create Gmail account: `hello@[CLIENT_DOMAIN].com`
-2. Enable 2-Step Verification
-3. Generate App Password
+1. Sign up at [Resend.com](https://resend.com)
+2. Verify client domain in Resend dashboard
+3. Get API key from Resend dashboard
 4. Update production credentials
 
 **Production Credentials** (`.kamal/secrets`):
 ```bash
-# Gmail SMTP Configuration
-GMAIL_USERNAME=hello@[CLIENT_DOMAIN].com
-GMAIL_APP_PASSWORD=[16_CHAR_APP_PASSWORD]
+# Resend API Configuration
+RESEND_API_KEY=[RESEND_API_KEY]
 ```
 
 **Files to Update:**

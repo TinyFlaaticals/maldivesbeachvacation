@@ -62,10 +62,11 @@ Your Maldives Beach Vacation resort booking website has been successfully deploy
 - **Security:** STARTTLS enabled
 - **Status:** ✅ Fully configured and tested
 
-### **Email Flow:**
-- **Booking Confirmations:** FROM hello@maldivesbeachvacation.com → TO customer email
-- **Admin Notifications:** FROM hello@maldivesbeachvacation.com → TO hello@maldivesbeachvacation.com
-- **Contact Form:** FROM hello@maldivesbeachvacation.com → TO admin contact email
+### **Email Flow (Asynchronous Processing):**
+- **Booking Confirmations:** FROM hello@maldivesbeachvacation.com → TO customer email (via background jobs)
+- **Admin Notifications:** FROM hello@maldivesbeachvacation.com → TO hello@maldivesbeachvacation.com (via background jobs)
+- **Contact Form:** FROM hello@maldivesbeachvacation.com → TO admin contact email (via background jobs)
+- **Processing:** All emails queued with `deliver_later` for instant form submissions
 
 ### **Production Credentials:**
 ```yaml

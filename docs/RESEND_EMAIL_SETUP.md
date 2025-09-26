@@ -126,16 +126,26 @@ config.action_mailer.raise_delivery_errors = true
 # Test in Rails console
 rails console
 
-# Test contact form emails
+# Test contact form emails (async delivery)
+BookingMailer.contact_confirmation('test@example.com', 'Test message', 'Test subject').deliver_later
+BookingMailer.contact_email('test@example.com', 'Test message', 'Test subject').deliver_later
+
+# For immediate testing (synchronous)
 BookingMailer.contact_confirmation('test@example.com', 'Test message', 'Test subject').deliver_now
-BookingMailer.contact_email('test@example.com', 'Test message', 'Test subject').deliver_now
 ```
 
 ### **Production Testing:**
 ```bash
-# Test via Kamal
+# Test via Kamal (async delivery)
 kamal app exec "rails runner \"
-BookingMailer.contact_confirmation('test@clientdomain.com', 'Production test', 'Test').deliver_now
+BookingMailer.contact_confirmation('test@clientdomain.com', 'Production test', 'Test').deliver_later
+puts 'Email queued successfully'
+\""
+
+# Check background job processing
+kamal app exec "rails runner \"
+puts 'Pending jobs: ' + SolidQueue::Job.pending.count.to_s
+puts 'Failed jobs: ' + SolidQueue::Job.failed.count.to_s
 \""
 ```
 
@@ -168,12 +178,14 @@ BookingMailer.contact_confirmation('test@clientdomain.com', 'Production test', '
 - ✅ **Detailed error messages** - Easier debugging
 - ✅ **Built-in retry logic** - Better delivery rates
 - ✅ **Real-time delivery status** - Immediate feedback
+- ✅ **Async processing** - No request timeouts or 502 errors
 
 ### **Simplified Deployment:**
 - ✅ **Single API key** - No username/password
 - ✅ **Environment agnostic** - Same config everywhere
 - ✅ **No DNS MX records** - Domain verification only
 - ✅ **Instant setup** - No SMTP server configuration
+- ✅ **Background jobs** - SolidQueue handles email delivery
 
 ---
 
@@ -193,9 +205,18 @@ BookingMailer.contact_confirmation('test@clientdomain.com', 'Production test', '
 - Always use client's domain for "from" address
 - Include proper unsubscribe links if sending marketing emails
 - Monitor bounce rates and delivery statistics
+- **Use `deliver_later` for production** - Prevents 502 errors and timeouts
+- **Use `deliver_now` only for testing** - Immediate delivery for debugging
+
+### **502 Error Prevention:**
+- **FIXED**: All form submissions now use `deliver_later`
+- **Contact forms** queue emails in background (no blocking)
+- **Booking forms** queue emails in background (no blocking)
+- **SolidQueue** processes all emails asynchronously
+- **Result**: Instant form submissions, no timeouts
 
 ---
 
 **✅ RESEND INTEGRATION COMPLETE - NO SMTP PORTS REQUIRED! ✅**
 
-*This configuration ensures reliable email delivery without any port restrictions or SMTP complexity.*
+*This configuration ensures reliable email delivery without any port restrictions, SMTP complexity, or 502 errors.*

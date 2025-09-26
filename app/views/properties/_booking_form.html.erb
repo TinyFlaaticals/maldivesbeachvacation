@@ -1,26 +1,26 @@
 <%= form_with(model: booking, url: bookings_property_path(property), class: "w-full") do |form| %>
   <% if booking.errors.any? %>
-    <div class="bg-red-50 p-4 rounded-lg mb-6">
-      <h2 class="text-red-700 font-medium">Please fix <%= pluralize(booking.errors.count, "error") %> to complete your booking:</h2>
-      <ul class="list-disc list-inside text-red-600 mt-2">
-        <% booking.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+      <div class="flex items-center">
+        <svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+        </svg>
+        <p class="text-red-700 font-medium">Please complete all required fields to proceed with your booking.</p>
+      </div>
     </div>
   <% end %>
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
     <div class="space-y-2">
       <%= form.label :full_name, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.text_field :full_name, class: "mt-1 block w-full h-12 px-4 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50" %>
+      <%= form.text_field :full_name, class: "mt-1 block w-full h-12 px-4 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 #{booking.errors[:full_name].any? ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'}" %>
     </div>
     <div class="space-y-2">
       <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.email_field :email, class: "mt-1 block w-full h-12 px-4 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50" %>
+      <%= form.email_field :email, class: "mt-1 block w-full h-12 px-4 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 #{booking.errors[:email].any? ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'}" %>
     </div>
     <div class="space-y-2">
       <%= form.label :phone_number, class: "block text-sm font-medium text-gray-700" %>
-      <%= form.telephone_field :phone_number, class: "mt-1 block w-full h-12 px-4 rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50" %>
+      <%= form.telephone_field :phone_number, class: "mt-1 block w-full h-12 px-4 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 bg-gray-50 #{booking.errors[:phone_number].any? ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300'}" %>
     </div>
     <div class="space-y-2">
       <%= form.label :room_type, class: "block text-sm font-medium text-gray-700" %>

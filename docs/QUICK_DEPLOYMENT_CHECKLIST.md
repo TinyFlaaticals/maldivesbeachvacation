@@ -218,15 +218,20 @@ kamal app exec "rails db:seed"
 
 ### **EMAIL ISSUES**
 ```bash
-# Test email sending
+# Test email sending (uses Resend API)
 kamal app exec "rails runner \"
-ActionMailer::Base.delivery_method = :smtp
 TestMailer.test_email('test@example.com').deliver_now
 \""
 
-# Check SMTP settings
+# Check Resend configuration
 kamal app exec "rails runner \"
-puts ActionMailer::Base.smtp_settings.inspect
+puts 'Resend API Key: ' + (Resend.api_key ? 'Set' : 'Not set')
+puts 'Delivery method: ' + ActionMailer::Base.delivery_method.to_s
+\""
+
+# Check background job processing
+kamal app exec "rails runner \"
+puts 'SolidQueue running: ' + (defined?(SolidQueue) ? 'Yes' : 'No')
 \""
 ```
 
@@ -239,8 +244,30 @@ kamal app exec "df -h"
 # Application logs
 kamal app logs --tail 100
 
+# Check background job queue
+kamal app exec "rails runner \"
+puts 'Pending jobs: ' + SolidQueue::Job.pending.count.to_s
+puts 'Failed jobs: ' + SolidQueue::Job.failed.count.to_s
+\""
+
 # Restart if needed
 kamal app restart
+```
+
+### **502 ERRORS (FIXED)**
+```bash
+# If you encounter 502 errors during form submissions:
+# This was caused by synchronous email delivery blocking requests
+# SOLUTION: All emails now use deliver_later (background processing)
+
+# Check if background jobs are processing
+kamal app logs | grep "SolidQueue"
+
+# Verify async email delivery is working
+kamal app exec "rails runner \"
+BookingMailer.contact_confirmation('test@example.com', 'test', 'test').deliver_later
+puts 'Email queued successfully'
+\""
 ```
 
 ---
