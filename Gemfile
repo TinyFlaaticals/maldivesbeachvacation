@@ -80,3 +80,7 @@ gem "aws-sdk-s3", require: false  # For DigitalOcean Spaces (S3-compatible stora
 
 # Email delivery service
 gem "resend"
+
+# Rate limiting and security
+gem "rack-attack"
+gem "recaptcha"
