@@ -40,6 +40,7 @@ env:
     - RAILS_MASTER_KEY
     - POSTGRES_PASSWORD
     - SECRET_KEY_BASE
+    - RESEND_API_KEY
   clear:
     DB_HOST: resort_booking-db
     POSTGRES_USER: resort_booking

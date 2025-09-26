@@ -2,7 +2,7 @@
 require 'resend'
 
 # Configure Resend API key
-Resend.api_key = Rails.application.credentials.resend_api_key || ENV['RESEND_API_KEY'] || 're_RkiRrkpk_5Lp2qpM23qZgf235uizdZ9X5'
+Resend.api_key = Rails.application.credentials.resend_api_key || ENV['RESEND_API_KEY'] || 're_Thsuphuz_5wYPZXywQoyVDqtiobphL6Uu'
 
 # Custom ActionMailer delivery method for Resend
 class ResendDelivery
