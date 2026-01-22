@@ -20,7 +20,7 @@ class StoriesController < ApplicationController
     @page_title = @story.title
     
     # Set description from story content (first 160 characters)
-    @page_description = strip_tags(@story.content.to_s).truncate(160)
+    @page_description = ActionController::Base.helpers.strip_tags(@story.content.to_s).truncate(160)
     
     # Set OG type for articles
     @og_type = 'article'
