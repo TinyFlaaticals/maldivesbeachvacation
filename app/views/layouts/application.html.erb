@@ -2,14 +2,14 @@
 <html>
 
 <head>
-    <title><%= content_for(:title) || "Maldives Beach Vacation - Luxury Resort Booking in Maldives" %></title>
+    <title><%= @page_title || content_for(:title) || "Maldives Beach Vacation - Luxury Resort Booking in Maldives" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="<%= content_for(:description) || 'We are a premier travel agency specializing in luxurious Maldives vacation packages. Our team of expert travel consultants is dedicated to creating personalized experiences that showcase the best of this tropical paradise.' %>">
-    <meta name="keywords" content="<%= content_for(:keywords) || 'Maldives, resort booking, luxury villas, overwater bungalows, tropical vacation, beach resort, Maldives hotels, island resort, honeymoon destination' %>">
+    <meta name="description" content="<%= @page_description || content_for(:description) || 'We are a premier travel agency specializing in luxurious Maldives vacation packages. Our team of expert travel consultants is dedicated to creating personalized experiences that showcase the best of this tropical paradise.' %>">
+    <meta name="keywords" content="<%= @page_keywords || content_for(:keywords) || 'Maldives, resort booking, luxury villas, overwater bungalows, tropical vacation, beach resort, Maldives hotels, island resort, honeymoon destination' %>">
     <meta name="author" content="Maldives Beach Vacation Pvt Ltd">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="<%= request.original_url.sub(/^https?:\/\/(?!www\.)/, 'https://www.') %>">
@@ -18,29 +18,39 @@
     <meta name="google-site-verification" content="E-_UKHBTzy0beUHYXnC_r7caxaQf-sT01AX88rNe1-c">
     
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="<%= @og_type || 'website' %>">
     <meta property="og:url" content="<%= request.original_url %>">
-    <meta property="og:title" content="<%= content_for(:title) || 'Maldives Beach Vacation - Luxury Resort Booking' %>">
-    <meta property="og:description" content="<%= content_for(:description) || 'We are a premier travel agency specializing in luxurious Maldives vacation packages. Our team of expert travel consultants is dedicated to creating personalized experiences.' %>">
-    <meta property="og:image" content="<%= asset_url('logo.png') %>">
+    <meta property="og:title" content="<%= @page_title || content_for(:title) || 'Maldives Beach Vacation - Luxury Resort Booking' %>">
+    <meta property="og:description" content="<%= @page_description || content_for(:description) || 'We are a premier travel agency specializing in luxurious Maldives vacation packages. Our team of expert travel consultants is dedicated to creating personalized experiences.' %>">
+    <meta property="og:image" content="<%= @og_image || asset_url('logo.png') %>">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="<%= @page_title || 'Maldives Beach Vacation' %>">
     <meta property="og:site_name" content="Maldives Beach Vacation">
+    <% if @og_type == 'article' %>
+    <meta property="article:author" content="Maldives Beach Vacation">
+    <meta property="article:section" content="Travel">
+    <% if defined?(@story) && @story.created_at %>
+    <meta property="article:published_time" content="<%= @story.created_at.iso8601 %>">
+    <% end %>
+    <% end %>
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="<%= request.original_url %>">
-    <meta property="twitter:title" content="<%= content_for(:title) || 'Maldives Beach Vacation - Luxury Resort Booking' %>">
-    <meta property="twitter:description" content="<%= content_for(:description) || 'We are a premier travel agency specializing in luxurious Maldives vacation packages. Our team of expert travel consultants is dedicated to creating personalized experiences.' %>">
-    <meta property="twitter:image" content="<%= asset_url('logo.png') %>">
+    <meta property="twitter:title" content="<%= @page_title || content_for(:title) || 'Maldives Beach Vacation - Luxury Resort Booking' %>">
+    <meta property="twitter:description" content="<%= @page_description || content_for(:description) || 'We are a premier travel agency specializing in luxurious Maldives vacation packages. Our team of expert travel consultants is dedicated to creating personalized experiences.' %>">
+    <meta property="twitter:image" content="<%= @og_image || asset_url('logo.png') %>">
     
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-    <%= favicon_link_tag "favicon.png", type: "image/png" %>
-    <%= favicon_link_tag "logo.png", type: "image/png", sizes: "32x32" %>
-    <%= favicon_link_tag "logo.png", type: "image/png", sizes: "16x16" %>
-    <%= favicon_link_tag "logo.png", rel: "apple-touch-icon", sizes: "180x180" %>
+    <%# <%= favicon_link_tag "favicon.png", type: "image/png" %>
+    <%# <%= favicon_link_tag "logo.png", type: "image/png", sizes: "32x32" %>
+    <%# <%= favicon_link_tag "logo.png", type: "image/png", sizes: "16x16" %>
+    <%# <%= favicon_link_tag "logo.png", rel: "apple-touch-icon", sizes: "180x180" %>
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
