@@ -15068,6 +15068,465 @@ var sidebar_toggle_controller_default = class extends Controller {
   }
 };
 
+// app/javascript/controllers/social_generator_controller.js
+var social_generator_controller_default = class extends Controller {
+  static targets = [
+    "sizeSelect",
+    "sizeInfo",
+    "titleInput",
+    "descriptionInput",
+    "ctaSelect",
+    "customCtaInput",
+    "canvasContainer",
+    "canvas",
+    "previewDimensions",
+    "formatSelect",
+    "qualitySelect",
+    "statusMessage",
+    "imageUpload",
+    "imagePreview",
+    "previewImage",
+    "initialMessage",
+    "logoElement",
+    "titleElement",
+    "descriptionElement",
+    "ctaElement",
+    "contactElement",
+    "selectionIndicator",
+    "backgroundImageContainer",
+    "backgroundImage",
+    "elementControls",
+    "selectedElementName",
+    "backgroundColorPicker",
+    "titleColorPicker",
+    "titleSizeRange",
+    "titleSizeValue"
+  ];
+  connect() {
+    console.log("\u{1F680} Advanced Social Media Generator connected!");
+    this.initializeState();
+    this.setupEventListeners();
+    this.updatePreview();
+  }
+  initializeState() {
+    this.selectedPlatform = null;
+    this.selectedSize = null;
+    this.uploadedImage = null;
+    this.selectedElement = null;
+    this.isDragging = false;
+    this.dragOffset = { x: 0, y: 0 };
+    this.imageFit = "cover";
+    this.elementVisibility = {
+      logo: true,
+      title: true,
+      description: true,
+      cta: true,
+      contact: true
+    };
+    this.canvasConfig = {
+      width: 400,
+      height: 400,
+      backgroundColor: "#27AAE1",
+      backgroundType: "gradient"
+    };
+    this.platformSizes = {
+      instagram: {
+        "Square Post": { width: 1080, height: 1080 },
+        "Story": { width: 1080, height: 1920 },
+        "Reel Cover": { width: 1080, height: 1350 }
+      },
+      facebook: {
+        "Post": { width: 1200, height: 630 },
+        "Story": { width: 1080, height: 1920 },
+        "Cover Photo": { width: 1640, height: 859 }
+      },
+      linkedin: {
+        "Post": { width: 1200, height: 627 },
+        "Article Header": { width: 1200, height: 627 },
+        "Company Cover": { width: 1536, height: 768 }
+      }
+    };
+  }
+  setupEventListeners() {
+    document.addEventListener("mousemove", this.handleMouseMove.bind(this));
+    document.addEventListener("mouseup", this.handleMouseUp.bind(this));
+    if (this.hasCanvasTarget) {
+      this.canvasTarget.addEventListener("contextmenu", (e2) => e2.preventDefault());
+    }
+  }
+  // Platform Selection
+  selectPlatform(event) {
+    const platform = event.currentTarget.dataset.platform;
+    console.log("\u{1F3AF} Platform selected:", platform);
+    document.querySelectorAll("[data-platform]").forEach((btn) => {
+      btn.classList.remove("ring-2", "ring-offset-2", "ring-primary", "bg-blue-50");
+    });
+    event.currentTarget.classList.add("ring-2", "ring-offset-2", "ring-primary", "bg-blue-50");
+    this.selectedPlatform = platform;
+    this.updateSizeOptions();
+    this.hideInitialMessage();
+    this.updatePreview();
+  }
+  updateSizeOptions() {
+    if (!this.selectedPlatform || !this.hasSizeSelectTarget) return;
+    const sizes = this.platformSizes[this.selectedPlatform];
+    this.sizeSelectTarget.innerHTML = '<option value="">Choose size...</option>';
+    Object.keys(sizes).forEach((sizeName) => {
+      const option = document.createElement("option");
+      option.value = sizeName;
+      option.textContent = `${sizeName} (${sizes[sizeName].width}\xD7${sizes[sizeName].height})`;
+      this.sizeSelectTarget.appendChild(option);
+    });
+  }
+  selectSize(event) {
+    const sizeName = event.target.value;
+    if (!sizeName || !this.selectedPlatform) return;
+    this.selectedSize = sizeName;
+    const dimensions = this.platformSizes[this.selectedPlatform][sizeName];
+    const maxPreviewSize = 400;
+    const aspectRatio = dimensions.width / dimensions.height;
+    let previewWidth, previewHeight;
+    if (aspectRatio > 1) {
+      previewWidth = Math.min(maxPreviewSize, dimensions.width * 0.3);
+      previewHeight = previewWidth / aspectRatio;
+    } else {
+      previewHeight = Math.min(maxPreviewSize, dimensions.height * 0.3);
+      previewWidth = previewHeight * aspectRatio;
+    }
+    this.canvasConfig.width = previewWidth;
+    this.canvasConfig.height = previewHeight;
+    if (this.hasCanvasTarget) {
+      this.canvasTarget.style.width = `${previewWidth}px`;
+      this.canvasTarget.style.height = `${previewHeight}px`;
+    }
+    if (this.hasPreviewDimensionsTarget) {
+      this.previewDimensionsTarget.textContent = `${dimensions.width} \xD7 ${dimensions.height}px`;
+    }
+    if (this.hasSizeInfoTarget) {
+      this.sizeInfoTarget.textContent = `Preview: ${Math.round(previewWidth)} \xD7 ${Math.round(previewHeight)}px`;
+    }
+    this.updatePreview();
+  }
+  // Element Visibility Toggle
+  toggleElement(event) {
+    const element = event.currentTarget.dataset.element;
+    const isVisible = event.currentTarget.checked;
+    this.elementVisibility[element] = isVisible;
+    console.log(`\u{1F504} Element ${element} visibility:`, isVisible);
+    const targetName = `${element}Element`;
+    if (this.targets.has(targetName)) {
+      const elementTarget = this[`${targetName}Target`];
+      if (elementTarget) {
+        elementTarget.style.display = isVisible ? "block" : "none";
+      }
+    }
+  }
+  // Drag and Drop Functionality
+  startDrag(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const element = event.currentTarget;
+    const rect = element.getBoundingClientRect();
+    const canvasRect = this.canvasTarget.getBoundingClientRect();
+    this.isDragging = true;
+    this.selectedElement = element;
+    this.dragOffset = {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top
+    };
+    element.style.cursor = "grabbing";
+    this.selectElement(event);
+    console.log("\u{1F3AF} Started dragging:", element.dataset.elementType);
+  }
+  handleMouseMove(event) {
+    if (!this.isDragging || !this.selectedElement) return;
+    event.preventDefault();
+    const canvasRect = this.canvasTarget.getBoundingClientRect();
+    let newX = event.clientX - canvasRect.left - this.dragOffset.x;
+    let newY = event.clientY - canvasRect.top - this.dragOffset.y;
+    const elementRect = this.selectedElement.getBoundingClientRect();
+    newX = Math.max(0, Math.min(newX, this.canvasConfig.width - elementRect.width));
+    newY = Math.max(0, Math.min(newY, this.canvasConfig.height - elementRect.height));
+    this.selectedElement.style.left = `${newX}px`;
+    this.selectedElement.style.top = `${newY}px`;
+    this.updateSelectionIndicator();
+  }
+  handleMouseUp(event) {
+    if (this.isDragging && this.selectedElement) {
+      this.selectedElement.style.cursor = "move";
+      this.isDragging = false;
+      console.log("\u2705 Drag completed");
+    }
+  }
+  // Element Selection
+  selectElement(event) {
+    event.stopPropagation();
+    const element = event.currentTarget;
+    if (this.selectedElement && this.selectedElement !== element) {
+      this.selectedElement.classList.remove("ring-2", "ring-blue-400");
+    }
+    this.selectedElement = element;
+    element.classList.add("ring-2", "ring-blue-400");
+    if (this.hasElementControlsTarget) {
+      this.elementControlsTarget.classList.remove("hidden");
+    }
+    if (this.hasSelectedElementNameTarget) {
+      const elementType2 = element.dataset.elementType;
+      this.selectedElementNameTarget.textContent = `${elementType2.charAt(0).toUpperCase() + elementType2.slice(1)} Selected`;
+    }
+    this.updateSelectionIndicator();
+    console.log("\u{1F3AF} Selected element:", element.dataset.elementType);
+  }
+  deselectElements(event) {
+    if (event.target === this.canvasTarget) {
+      if (this.selectedElement) {
+        this.selectedElement.classList.remove("ring-2", "ring-blue-400");
+        this.selectedElement = null;
+      }
+      if (this.hasSelectionIndicatorTarget) {
+        this.selectionIndicatorTarget.classList.add("hidden");
+      }
+      if (this.hasElementControlsTarget) {
+        this.elementControlsTarget.classList.add("hidden");
+      }
+      console.log("\u274C Deselected all elements");
+    }
+  }
+  updateSelectionIndicator() {
+    if (!this.selectedElement || !this.hasSelectionIndicatorTarget) return;
+    const rect = this.selectedElement.getBoundingClientRect();
+    const canvasRect = this.canvasTarget.getBoundingClientRect();
+    const indicator = this.selectionIndicatorTarget;
+    indicator.style.left = `${rect.left - canvasRect.left - 2}px`;
+    indicator.style.top = `${rect.top - canvasRect.top - 2}px`;
+    indicator.style.width = `${rect.width + 4}px`;
+    indicator.style.height = `${rect.height + 4}px`;
+    indicator.classList.remove("hidden");
+  }
+  // Text Editing
+  editText(event) {
+    event.stopPropagation();
+    const element = event.currentTarget;
+    const currentText = element.textContent;
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = currentText;
+    input.className = "absolute inset-0 bg-transparent text-inherit font-inherit text-inherit border-2 border-blue-400 rounded px-2";
+    element.style.position = "relative";
+    element.appendChild(input);
+    element.style.color = "transparent";
+    input.focus();
+    input.select();
+    const finishEditing = () => {
+      element.textContent = input.value || currentText;
+      element.style.color = "";
+      input.remove();
+      this.updateInputFields(element.dataset.elementType, input.value);
+    };
+    input.addEventListener("blur", finishEditing);
+    input.addEventListener("keydown", (e2) => {
+      if (e2.key === "Enter") finishEditing();
+      if (e2.key === "Escape") {
+        element.textContent = currentText;
+        element.style.color = "";
+        input.remove();
+      }
+    });
+    console.log("\u270F\uFE0F Editing text for:", element.dataset.elementType);
+  }
+  updateInputFields(elementType2, value) {
+    if (elementType2 === "title" && this.hasTitleInputTarget) {
+      this.titleInputTarget.value = value;
+    } else if (elementType2 === "description" && this.hasDescriptionInputTarget) {
+      this.descriptionInputTarget.value = value;
+    }
+  }
+  // Layer Management
+  bringToFront() {
+    if (!this.selectedElement) return;
+    const currentZ = parseInt(this.selectedElement.style.zIndex) || 10;
+    this.selectedElement.style.zIndex = currentZ + 1;
+    console.log("\u2B06\uFE0F Brought element to front");
+  }
+  sendToBack() {
+    if (!this.selectedElement) return;
+    const currentZ = parseInt(this.selectedElement.style.zIndex) || 10;
+    this.selectedElement.style.zIndex = Math.max(1, currentZ - 1);
+    console.log("\u2B07\uFE0F Sent element to back");
+  }
+  // Style Updates
+  updateBackgroundColor(event) {
+    const color = event.target.value;
+    this.canvasConfig.backgroundColor = color;
+    if (this.canvasConfig.backgroundType === "solid") {
+      this.canvasTarget.style.background = color;
+    }
+    console.log("\u{1F3A8} Background color updated:", color);
+  }
+  updateTitleColor(event) {
+    const color = event.target.value;
+    if (this.hasTitleElementTarget) {
+      this.titleElementTarget.style.color = color;
+    }
+    console.log("\u{1F3A8} Title color updated:", color);
+  }
+  updateTitleSize(event) {
+    const size = event.target.value;
+    if (this.hasTitleElementTarget) {
+      this.titleElementTarget.style.fontSize = `${size}px`;
+    }
+    if (this.hasTitleSizeValueTarget) {
+      this.titleSizeValueTarget.textContent = size;
+    }
+    console.log("\u{1F4CF} Title size updated:", size + "px");
+  }
+  selectBackground(event) {
+    const backgroundType = event.currentTarget.dataset.background;
+    this.canvasConfig.backgroundType = backgroundType;
+    document.querySelectorAll(".bg-btn").forEach((btn) => {
+      btn.classList.remove("ring-2", "ring-offset-2", "ring-primary", "bg-blue-50");
+    });
+    event.currentTarget.classList.add("ring-2", "ring-offset-2", "ring-primary", "bg-blue-50");
+    if (backgroundType === "gradient") {
+      this.canvasTarget.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+    } else if (backgroundType === "solid") {
+      this.canvasTarget.style.background = this.canvasConfig.backgroundColor;
+    }
+    console.log("\u{1F3A8} Background type updated:", backgroundType);
+  }
+  setImageFit(event) {
+    const fit = event.currentTarget.dataset.fit;
+    this.imageFit = fit;
+    document.querySelectorAll(".image-fit-btn").forEach((btn) => {
+      btn.classList.remove("border-primary", "bg-blue-50");
+      btn.classList.add("border-gray-200");
+    });
+    event.currentTarget.classList.remove("border-gray-200");
+    event.currentTarget.classList.add("border-primary", "bg-blue-50");
+    if (this.hasBackgroundImageTarget && !this.backgroundImageTarget.classList.contains("hidden")) {
+      this.backgroundImageTarget.style.objectFit = fit;
+    }
+    console.log("\u{1F5BC}\uFE0F Image fit updated:", fit);
+  }
+  // Image Upload
+  handleImageUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    console.log("\u{1F4F8} Image uploaded:", file.name);
+    if (file.size > 10 * 1024 * 1024) {
+      alert("File size must be less than 10MB");
+      return;
+    }
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file");
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (e2) => {
+      if (this.hasPreviewImageTarget && this.hasImagePreviewTarget) {
+        this.previewImageTarget.src = e2.target.result;
+        this.imagePreviewTarget.classList.remove("hidden");
+      }
+      if (this.hasBackgroundImageTarget && this.hasBackgroundImageContainerTarget) {
+        this.backgroundImageTarget.src = e2.target.result;
+        this.backgroundImageTarget.style.objectFit = this.imageFit;
+        this.backgroundImageContainerTarget.classList.remove("hidden");
+      }
+      this.uploadedImage = e2.target.result;
+      this.hideInitialMessage();
+      console.log("\u2705 Image set as background");
+    };
+    reader.readAsDataURL(file);
+  }
+  removeImage() {
+    if (this.hasImagePreviewTarget) {
+      this.imagePreviewTarget.classList.add("hidden");
+    }
+    if (this.hasImageUploadTarget) {
+      this.imageUploadTarget.value = "";
+    }
+    if (this.hasBackgroundImageContainerTarget) {
+      this.backgroundImageContainerTarget.classList.add("hidden");
+    }
+    this.uploadedImage = null;
+    console.log("\u{1F5D1}\uFE0F Image removed");
+  }
+  // Content Updates
+  updateContent(event) {
+    const input = event.target;
+    const value = input.value;
+    if (input === this.titleInputTarget && this.hasTitleElementTarget) {
+      this.titleElementTarget.textContent = value || "Paradise Resort";
+    } else if (input === this.descriptionInputTarget && this.hasDescriptionElementTarget) {
+      this.descriptionElementTarget.textContent = value || "Experience luxury like never before";
+    }
+  }
+  updateCTA(event) {
+    const select = event.target;
+    const value = select.value;
+    if (this.hasCtaElementTarget) {
+      if (value === "custom") {
+        if (this.hasCustomCtaInputTarget) {
+          this.customCtaInputTarget.classList.remove("hidden");
+          this.customCtaInputTarget.focus();
+        }
+      } else {
+        if (this.hasCustomCtaInputTarget) {
+          this.customCtaInputTarget.classList.add("hidden");
+        }
+        this.ctaElementTarget.textContent = value || "Book Now";
+      }
+    }
+  }
+  updateCustomCTA(event) {
+    const value = event.target.value;
+    if (this.hasCtaElementTarget) {
+      this.ctaElementTarget.textContent = value || "Book Now";
+    }
+  }
+  // Utility Methods
+  hideInitialMessage() {
+    if (this.hasInitialMessageTarget) {
+      this.initialMessageTarget.classList.add("hidden");
+    }
+  }
+  updatePreview() {
+    console.log("\u{1F504} Preview updated");
+  }
+  // Generation
+  generatePost() {
+    console.log("\u{1F3AF} Generate button clicked!");
+    if (!this.selectedPlatform || !this.selectedSize) {
+      alert("Please select a platform and size first!");
+      return;
+    }
+    this.showGenerationStatus();
+    setTimeout(() => {
+      this.downloadPost();
+      this.hideGenerationStatus();
+    }, 2e3);
+  }
+  downloadPost() {
+    console.log("\u2B07\uFE0F Downloading post...");
+    alert("\u{1F389} Post generated successfully! (This is a demo)");
+  }
+  showGenerationStatus() {
+    if (this.hasStatusMessageTarget) {
+      this.statusMessageTarget.textContent = "\u{1F3A8} Generating your post...";
+      this.statusMessageTarget.classList.remove("hidden");
+    }
+  }
+  hideGenerationStatus() {
+    if (this.hasStatusMessageTarget) {
+      this.statusMessageTarget.classList.add("hidden");
+    }
+  }
+  saveTemplate() {
+    console.log("\u{1F4BE} Template saved!");
+    alert("\u{1F4C1} Template saved successfully! (This is a demo)");
+  }
+};
+
 // app/javascript/controllers/toggle_controller.js
 var toggle_controller_default = class extends Controller {
   static targets = ["content"];
@@ -15084,6 +15543,7 @@ application.register("filter", filter_controller_default);
 application.register("hello", hello_controller_default);
 application.register("rails-nested-form", rails_nested_form_controller_default);
 application.register("sidebar-toggle", sidebar_toggle_controller_default);
+application.register("social-generator", social_generator_controller_default);
 application.register("toggle", toggle_controller_default);
 
 // app/javascript/property.js
@@ -21590,4 +22050,4 @@ jquery/dist/jquery.js:
 trix/dist/trix.esm.min.js:
   (*! @license DOMPurify 3.2.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.3/LICENSE *)
 */
-//# sourceMappingURL=/assets/application-d3ee0300.js.map
+//# sourceMappingURL=/assets/application-b14faf51.js.map

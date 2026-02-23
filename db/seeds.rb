@@ -184,10 +184,10 @@ end
 puts "Default tags created!"
 
 # Create admin user
-Admin.find_or_create_by!(email: 'admin@maldivesbeachvacation.com') do |admin|
-  admin.password = 'password123'
-  admin.password_confirmation = 'password123'
-end
+admin = Admin.find_or_initialize_by(email: 'admin@maldivesbeachvacation.com')
+admin.password = 'Maldives@2026!'
+admin.password_confirmation = 'Maldives@2026!'
+admin.save!
 
 puts "Admin user created!"
 

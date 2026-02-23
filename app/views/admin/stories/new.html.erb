@@ -57,22 +57,8 @@
 
             <div class="mb-6">
               <%= form.label :content, class: "block text-sm font-medium text-gray-700 mb-1" %>
-              <div class="bg-white border border-gray-300 rounded-md">
-                <div class="border-b border-gray-300 bg-gray-50 px-3 py-2 flex flex-wrap gap-1">
-                  <button type="button" class="p-1 rounded hover:bg-gray-200" title="Bold">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  <div class="border-r border-gray-300 mx-1"></div>
-                  <button type="button" class="p-1 rounded hover:bg-gray-200" title="Bold">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  <!-- More formatting buttons, matching the actual rich text editor -->
-                </div>
-                <%= form.rich_text_area :content, class: "block w-full p-3 focus:outline-none focus:ring-0 focus:border-0 border-0", placeholder: "Start writing your story..." %>
+              <div class="admin-trix-editor">
+                <%= form.rich_text_area :content, placeholder: "Start writing your story..." %>
               </div>
             </div>
           </div>

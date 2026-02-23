@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   get "about", to: "pages#about"
   get "contact", to: "pages#contact"
   post "contact", to: "pages#submit_contact"
+  
+  # Handle favicon requests
+  get "/favicon.ico", to: proc { [204, {}, []] }
 
   resources :stories, only: [ :index, :show ]
   resources :bookings, only: [ :show ]
