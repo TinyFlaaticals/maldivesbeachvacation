@@ -84,8 +84,8 @@ USER 1000:1000
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
-# Health check: restart container if /up fails after boot (60s start grace period)
-HEALTHCHECK --interval=10s --timeout=5s --start-period=60s --retries=3 \
+# Health check: 180s start grace period for db:prepare + Puma boot
+HEALTHCHECK --interval=10s --timeout=5s --start-period=180s --retries=3 \
   CMD curl -f http://localhost:80/up || exit 1
 
 # Start server via Thruster by default, this can be overwritten at runtime

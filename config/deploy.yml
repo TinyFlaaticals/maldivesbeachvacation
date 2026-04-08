@@ -31,8 +31,8 @@ proxy:
     path: /up
     timeout: 5
 
-# Allow up to 120s for the container to become healthy during deploy
-deploy_timeout: 120
+# Allow up to 300s for the container to become healthy (db:prepare takes ~2min)
+deploy_timeout: 300
 drain_timeout: 30
 
 # Credentials for your image host.
