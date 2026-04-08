@@ -7,7 +7,10 @@ image: ibazhad/resort_booking
 # Deploy to these servers.
 servers:
   web:
-    - 139.59.22.46
+    hosts:
+      - 139.59.22.46
+    options:
+      restart: unless-stopped
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -23,6 +26,10 @@ proxy:
   hosts:
     - maldivesbeachvacation.com
     - www.maldivesbeachvacation.com
+  healthcheck:
+    interval: 3
+    path: /up
+    timeout: 5
 
 # Credentials for your image host.
 registry:

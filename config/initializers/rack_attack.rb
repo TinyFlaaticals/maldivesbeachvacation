@@ -66,7 +66,8 @@ class Rack::Attack
   end
 
   ### Logging ###
-  ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, req|
-    Rails.logger.info "[Rack::Attack][Blocked] remote_ip: \"#{req.ip}\", path: \"#{req.path}\", matched: \"#{req.env['rack.attack.matched']}\""
+  ActiveSupport::Notifications.subscribe('rack.attack') do |name, start, finish, request_id, payload|
+    request = payload[:request]
+    Rails.logger.info "[Rack::Attack][Blocked] remote_ip: \"#{request.ip}\", path: \"#{request.path}\", matched: \"#{request.env['rack.attack.matched']}\""
   end
 end
