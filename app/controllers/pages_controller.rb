@@ -71,8 +71,8 @@ class PagesController < ApplicationController
 
     # Check for suspicious email domains or patterns
     suspicious_domains = [
-      'seagullelectronics.com',
-      'walkerandpaul.com'
+      "seagullelectronics.com",
+      "walkerandpaul.com"
     ]
 
     # Check if email contains suspicious domains

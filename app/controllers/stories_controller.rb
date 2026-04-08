@@ -8,7 +8,7 @@ class StoriesController < ApplicationController
     @popular_properties = Property.order(created_at: :desc).limit(4)
     @related_stories = Story.where.not(id: @story.id).limit(3)
     @story_tags = @story.tags.presence || Tag.where(name: [ "Travel", "Maldives", "Holiday", "Beach", "Luxury" ]).limit(5)
-    
+
     # Set up meta tags for social sharing
     set_story_meta_tags
   end
@@ -18,10 +18,10 @@ class StoriesController < ApplicationController
   def set_story_meta_tags
     # Set the page title
     @page_title = @story.title
-    
+
     # Set description from story content (first 160 characters)
     @page_description = ActionController::Base.helpers.strip_tags(@story.content.to_s).truncate(160)
-    
+
     # Set OG type for articles
     @og_type = 'article'
     
